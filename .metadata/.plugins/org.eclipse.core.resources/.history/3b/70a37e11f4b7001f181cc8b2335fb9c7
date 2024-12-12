@@ -1,0 +1,7 @@
+package game.base;
+
+public interface GameUpdateListener {
+     void receive();
+
+	Object getUIManager();
+}

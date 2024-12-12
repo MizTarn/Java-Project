@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.durak_game.Game2Controller">
+    <children>
+        <Region prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #445f44;" stylesheets="@images/Style.css" />
+        <Button fx:id="btnAction" layoutX="909.0" layoutY="735.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="80.0" style="-fx-background-color: black; -fx-background-radius: 10px;" text="Take" textFill="WHITE" />
+        <Label layoutX="776.0" layoutY="26.0" text="number of cards in the deck" />
+        <Label fx:id="sizeDeck" layoutX="953.0" layoutY="26.0" text="23" />
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" layoutX="14.0" layoutY="598.0" prefHeight="172.0" prefWidth="878.0" vbarPolicy="NEVER">
+            <content>
+                <HBox fx:id="hand" prefHeight="172.0" prefWidth="871.0">
+                    <children>
+
+                    </children>
+                </HBox>
+            </content>
+        </ScrollPane>
+        <FlowPane fx:id="table" layoutX="24.0" layoutY="300.0" prefHeight="200.0" prefWidth="951.0" prefWrapLength="900.0" rowValignment="TOP" style="-fx-background-color: rgba(0,0,0,0.3);" />
+        <ImageView fx:id="trumpCardImage" fitHeight="200.0" fitWidth="130.0" layoutX="638.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@images/6_of_clubs.png" />
+            </image></ImageView>
+        <Label fx:id="labelTrumpCard" layoutX="671.0" layoutY="17.0" text="Trump Card" />
+      <Label fx:id="labelMove" layoutX="24.0" layoutY="568.0" text="Lượt chơi">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+    </children>
+</AnchorPane>

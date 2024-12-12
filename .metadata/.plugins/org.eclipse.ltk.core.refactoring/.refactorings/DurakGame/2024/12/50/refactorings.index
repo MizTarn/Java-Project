@@ -1,0 +1,26 @@
+1733740775515	Delete element
+1733740914966	Delete element
+1733740990759	Encapsulate field 'currentNumOfCard, ...'
+1733741095691	Delete element
+1733741141545	Rename package 'Command'
+1733741994736	Delete element
+1733742285307	Delete element
+1733823873418	Delete element
+1733823976317	Rename compilation unit 'Main.java'
+1733824035743	Delete element
+1733824245175	Delete element
+1733824742814	Delete element
+1733827612692	Rename resource 'Q-C.png'
+1733850081051	Rename method 'addHost'
+1733858609000	Rename type 'Hand'
+1733921957126	Encapsulate field 'gb, ...'
+1733939593623	Move compilation unit
+1733947634563	Delete element
+1733947710589	Rename type 'Helper'
+1733947737029	Rename package 'help'
+1733948227444	Move compilation unit
+1733976727671	Encapsulate field 'gameManager, ...'
+1733977170729	Encapsulate field 'botPlayer, ...'
+1733977650934	Encapsulate field 'idBot, ...'
+1733980554860	Encapsulate field 'idPlayer, ...'
+1733999020639	Rename type 'ParseAndSendData'

@@ -1,0 +1,20 @@
+package game.base;
+
+import manager.GameManager;
+
+public class BotConnection {
+	private GameManager gameManager;
+	
+	public BotConnection(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
+
+	public GameManager getGameManager() {
+		return gameManager;
+	}
+
+	public void setGameManager(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
+	
+}

@@ -1,0 +1,24 @@
+package command;
+
+public class TakeCardCommand implements Command {
+
+	private PlayerManager playerManager;
+	private Table tableManager;
+	public TakeCardCommand(PlayerManager playerManager, Table tableManager) {
+		this.playerManager = playerManager;
+		this.tableManager = tableManager;
+	}
+	
+	@Override
+	public void execute(String[] params) throws Exception { //take_card#card#idPlayer
+		int idPlayer = Integer.parseInt(params[2]);
+		System.out.println("Rút bài...");
+		Player2 currentPlayer = playerManager.getPlayers().get(idPlayer);
+		currentPlayer.getHand().addCards(tableManager.getTable());
+		tableManager.clearTable();
+		tableManager.drawCardsForPlayers(playerManager.getPlayers());
+		tableManager.setChangeMove(true);
+
+	}
+
+}

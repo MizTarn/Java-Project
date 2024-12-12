@@ -1,0 +1,66 @@
+package player;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+import card.Card;
+import card.CardComparator;
+import javafx.scene.Node;
+
+public class BotPlayer extends Player implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final Comparator<? super Card> comparator = new CardComparator<>();
+
+	public BotPlayer(String name) {
+        super(name); // Gọi lớp cha để thiết lập tên và các thuộc tính chung
+    }
+	
+	public BotPlayer(String name, String id) {
+        super(name, id); // Gọi lớp cha để thiết lập tên và các thuộc tính chung
+    }
+	
+//	 public void playCard() throws Exception {
+//	        Card selectedCard = selectCardToPlay(); // Logic chọn lá bài
+//	        if (selectedCard != null) {
+//	            this.getHand().getCard(selectedCard); // Xóa lá bài khỏi tay
+//	            System.out.println(this.getName() + " plays: " + selectedCard);
+//	            // Gửi lá bài ra bàn chơi (giả sử bạn có cơ chế tương tác với TableManager)
+//	        } else {
+//	            System.out.println(this.getName() + " has no valid cards to play.");
+//	        }
+//	    }
+	 
+//	 public Card selectCardToPlay() {
+//		    if (isAttacker()) {
+//		        return selectAttackCard();
+//		    } else if (isDefender()) {
+//		        return selectDefendCard();
+//		    }
+//		    return null;
+//		}
+
+	 public Card selectAttackCard() {
+		    // Chọn lá bài nhỏ nhất để tấn công
+		    return this.getHand().getCardsInHand().stream()
+		               .min(comparator)
+		               .orElse(null);
+		}
+
+//	 public Card selectDefendCard() {
+//		    // Giả sử truy cập lá bài đang bị tấn công trên bàn (currentAttackCard)
+//		    Card currentAttackCard = tableManager.getCurrentAttackCard();
+//
+//		    // Tìm lá bài lớn hơn lá bài tấn công và cùng chất
+//		    return hand.stream()
+//		               .filter(card -> card.getSuit().equals(currentAttackCard.getSuit())
+//		                            && card.getRank() > currentAttackCard.getRank())
+//		               .findFirst()
+//		               .orElse(null);
+//		}
+
+}
+	

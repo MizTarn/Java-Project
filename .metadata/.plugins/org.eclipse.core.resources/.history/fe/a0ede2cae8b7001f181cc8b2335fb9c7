@@ -1,0 +1,5 @@
+package manager;
+
+public abstract class BaseController {
+
+}

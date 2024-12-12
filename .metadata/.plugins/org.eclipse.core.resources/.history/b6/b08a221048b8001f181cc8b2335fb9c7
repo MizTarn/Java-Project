@@ -1,0 +1,46 @@
+package game.base;
+
+import manager.GameManager;
+import player.BotPlayer;
+
+public class BotConnection implements Runnable{
+	private GameManager gameManager;
+	private BotPlayer botPlayer;
+	private int idBot;
+	public BotConnection(GameManager gameManager, BotPlayer botPlayer, int idBot) {
+		this.gameManager = gameManager;
+		this.setBotPlayer(botPlayer);
+		this.setIdBot(idBot);
+	}
+
+	public GameManager getGameManager() {
+		return gameManager;
+	}
+
+	public void setGameManager(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
+
+	public BotPlayer getBotPlayer() {
+		return botPlayer;
+	}
+
+	public void setBotPlayer(BotPlayer botPlayer) {
+		this.botPlayer = botPlayer;
+	}
+
+	public int getIdBot() {
+		return idBot;
+	}
+
+	public void setIdBot(int idBot) {
+		this.idBot = idBot;
+	}
+
+	@Override
+	public void run() {
+		
+		
+	}
+	
+}

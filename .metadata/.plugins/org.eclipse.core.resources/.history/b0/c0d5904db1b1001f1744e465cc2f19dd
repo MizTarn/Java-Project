@@ -1,0 +1,18 @@
+package test;
+ 
+import java.net.*;
+import java.io.*;
+
+public class Server {
+	private static String username;
+	public static void createSession(String name, int s_id) throws NumberFormatException {
+        String data = "create_session" + "#" + name + "#" + s_id;
+        System.out.println(data);
+    }
+	public static void main(String args[]) throws Exception {
+		Server s = new Server();
+		String s1 = null;
+		int a;
+		 s.createSession(s1, a);
+	}
+}

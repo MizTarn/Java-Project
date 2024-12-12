@@ -1,0 +1,99 @@
+package help;
+
+import card.Card;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+
+public class Helper {
+    public static String getImageString(Card cd) {
+        String filename = "/cards/";
+        if (cd.getValue().getRank() >= 2 && cd.getValue().getRank() <= 10) {
+            filename += cd.getValue().getRank();
+        } else {
+            filename += cd.getValue().name().toUpperCase();
+        }
+        return filename.concat("-" + cd.getSuit().name().toUpperCase() + ".png");
+    }
+
+    public static void sendError(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("It erros");
+            alert.setContentText(message);
+            alert.showAndWait();
+            Platform.exit();
+        });
+    }
+
+    public static void sendConf(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Player " + message + " has won the game.");
+            alert.showAndWait();
+            Platform.exit();
+        });
+    }
+
+//    public static Card.Suit getSuit(String str) {
+//        if (str.equalsIgnoreCase("diamonds")) {
+//            return Card.Suit.D;
+//        }
+//        if (str.equalsIgnoreCase("spades")) {
+//            return Card.Suit.S;
+//        }
+//        if (str.equalsIgnoreCase("hearts")) {
+//            return Card.Suit.H;
+//        } 
+//        else {
+//            return Card.Suit.C;
+//        }
+//    }
+
+    public static Card.Value getValue(String value) {
+        value = value.toLowerCase();
+        switch (value) {
+        	case "two": {
+        		return Card.Value.Two;
+        	}
+        	case "three": {
+        		return Card.Value.Three;
+        	}
+        	case "four": {
+        		return Card.Value.Four;
+        	}
+        	case "five": {
+        		return Card.Value.Five;
+        	}
+            case "six": {
+                return Card.Value.Six;
+            }
+            case "seven": {
+                return Card.Value.Seven;
+            }
+            case "eight": {
+                return Card.Value.Eight;
+            }
+            case "nine": {
+                return Card.Value.Nine;
+            }
+            case "ten": {
+                return Card.Value.Ten;
+            }
+            case "jack": {
+                return Card.Value.Jack;
+            }
+            case "queen": {
+                return Card.Value.Queen;
+            }
+            case "king": {
+                return Card.Value.King;
+            }
+            case "ace": {
+                return Card.Value.Ace;
+            }
+        }
+        return null;
+    }
+
+}

@@ -1,0 +1,52 @@
+package player;
+
+import java.util.UUID;
+
+import card.Hand;
+
+public class BasePlayer {
+	private String name;
+	private String id;
+	private Hand hand;
+
+	public BasePlayer(String name, String id) {
+		this.name = name;
+		this.id = id;
+		hand = new Hand();
+	}
+ 
+	public BasePlayer() {
+
+	}
+
+	public BasePlayer(String name) {
+		this.name = name;
+		this.id = UUID.randomUUID().toString();
+		hand = new Hand();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Hand getHand() {
+		return hand;
+	}
+
+	public void setHand(Hand hand) {
+		this.hand = hand;
+	}
+
+	public String getId() {
+		return id;
+	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
+}

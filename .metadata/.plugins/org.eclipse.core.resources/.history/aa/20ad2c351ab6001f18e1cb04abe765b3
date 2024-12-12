@@ -1,0 +1,32 @@
+package test;
+
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+import player.Player;
+
+public class Session {
+    private String sessionId;
+    private final Map<Player, PrintWriter> players = new HashMap<>();
+
+    public Session(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public synchronized void addPlayer(Player player, PrintWriter out) {
+        players.put(player, out);
+        broadcast(player.getName() + " has joined the session!");
+    }
+
+    public synchronized void broadcast(String message) {
+        for (PrintWriter out : players.values()) {
+            out.println(message);
+        }
+    }
+
+    public synchronized void removePlayer(Player player) {
+        players.remove(player);
+        broadcast(player.getName() + " has left the session.");
+    }
+}

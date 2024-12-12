@@ -1,0 +1,31 @@
+package command;
+
+import manager.PlayerManager;
+import manager.Table;
+
+public class PassTurnCommand implements Command {
+
+	private PlayerManager playerManager;
+	private Table tableManager;
+
+	public PassTurnCommand(PlayerManager playerManager, Table tableManager) {
+		this.playerManager = playerManager;
+		this.tableManager = tableManager;
+	}
+
+	@Override
+	public void execute(String[] params) throws Exception {
+		try {
+			System.out.println("qua luot (pass turn connection)");
+//			tableManager.getTable().clear();
+//			tableManager.drawCardsForPlayers(playerManager.getPlayers());
+//			for (Player2 player : playerManager.getPlayers()) {
+//				player.setAttacker(false);
+//			}
+			tableManager.setChangeMove(true);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	} 
+
+}

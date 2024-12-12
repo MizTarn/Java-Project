@@ -1,0 +1,23 @@
+package test;
+ 
+import java.net.*;
+import java.util.HashMap;
+import java.io.*;
+
+public class Server {
+	private static String username;
+	public static void createSession(String name, String s_id) throws NumberFormatException {
+        String data = "create_session" + "#" + name + "#" + s_id;
+        System.out.println(data);
+    }
+	public static void main(String args[]) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put(null,"gg");
+		if(map.containsKey(null)) {
+			System.out.println("YES");
+		}
+		else {
+			System.out.println("NO");
+		}
+	}
+}

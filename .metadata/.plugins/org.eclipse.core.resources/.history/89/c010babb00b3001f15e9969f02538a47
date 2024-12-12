@@ -1,0 +1,399 @@
+package controller;
+
+import javafx.scene.Node;
+import player.Player;
+import controller.Session;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import card.Card;
+import card.Deck;
+import card.Hand;
+
+public class Connection implements Runnable {
+	public static int Max_player = 4;
+    private boolean gameStarted = false;
+    private boolean initializeGame = false;
+    private boolean changeMove = false;
+    private boolean end = false;
+    private int currentCount = 0;
+    private int currentActivePlayer;
+    private ArrayList<Card> table;
+    private Deck deck;
+    private Card trumpCard;
+    private boolean usedTrumpCard;
+    private ArrayList<PrintWriter> outputs = new ArrayList<>();
+    private ArrayList<BufferedReader> inputs = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>(Max_player);
+	private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;	
+    public Connection(Socket socket) {
+        this.socket = socket;
+        try {
+             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            System.err.println("Error initializing connection: " + e.getMessage());
+        }
+    }
+
+    public void addStreams(BufferedReader in, PrintWriter out, Player p) {
+        if (this.currentCount < Max_player) {
+            this.inputs.add(in);
+            this.outputs.add(out);
+            sendData("join_session_success", out);
+            this.players.add(p);
+            this.currentCount += 1;
+            sendDataToAll("started");
+            gameStarted = true;
+        } else {
+            sendData("join_session_failed", out);
+        }
+    }
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                String input = in.readLine();
+                if (input == null) break;
+
+                String[] data = input.split("#");
+                String command = data[0];
+
+                switch (command) {
+                    case "create_session" -> handleCreateSession(data);
+                    case "join_session" -> handleJoinSession(data);
+                    default -> out.println("Invalid command!");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error in connection: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+    }
+    
+    private void handleCreateSession(String[] data) {
+        String nickname = data[1];
+        String sessionId = data[2];
+
+        // Tạo session mới
+        Session session = new Session(sessionId);
+        session.addPlayer(new Player2(nickname), out);
+        Server.createSession(sessionId, session);
+
+        out.println("Session created successfully!");
+        System.out.println("Session " + sessionId + " created by " + nickname);
+    }
+    
+    
+    private void handleJoinSession(String[] data) {
+        String nickname = data[1];
+        String sessionId = data[2];
+
+        Session session = Server.getSession(sessionId);
+        if (session != null) {
+            session.addPlayer(new Player2(nickname), out);
+            out.println("Joined session " + sessionId + " successfully!");
+            System.out.println(nickname + " joined session " + sessionId);
+        } else {
+            out.println("join_session_failed");
+            System.err.println("Session " + sessionId + " not found!");
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            socket.close();
+            System.out.println("Client disconnected.");
+        } catch (IOException e) {
+            System.err.println("Error closing connection: " + e.getMessage());
+        }
+    }
+    
+    
+    private void parseData(String data) {
+        // take_card | discard | drop_card#card
+        String[] params = data.split("#");
+        String operation = params[0];
+        switch (operation) {
+            case "take_card": {
+                try {
+                    System.out.println("Thuc hien takecard");
+                    players.get(this.currentActivePlayer).getHand().addCards(table);
+                    table.clear();
+                    cardDrow();
+                    for (Player p : players) {
+                        p.setAttacker(false);
+                    }
+                    changeMove = true;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+            case "discard": {
+                try {
+                    System.out.println("Thuc hien discard");
+                    table.clear();
+                    cardDrow();
+                    for (Player p : players) {
+                        p.setAttacker(false);
+                    }
+                    changeMove = true;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+            case "drop_card": {
+                System.out.println("thuc hien dropcard");
+                Card dropped = new Card(params[1]);
+                System.out.println("drop: " + dropped.toString());
+                try {
+                    if (canPutInTable(dropped)) {
+                        System.out.println("co the dat");
+                        if (table.isEmpty()) {
+                            System.out.println("ban trong");
+                            players.get(this.currentActivePlayer).setAttacker(true);
+                        }
+                        Player p = players.get(this.currentActivePlayer);
+                        Hand h = p.getHand();
+                        System.out.println("hand: " + h.toString());
+                        table.add(h.getCard(dropped));
+                        System.out.println("рука игрока после - " + h.toString());
+                        System.out.println("карта была положена на стол");
+                        changeMove = true;
+                        System.out.println("ход поменялся");
+                    } else {
+                        System.out.println("нельзя положить карту");
+                        changeMove = false;
+                        System.out.println("ход не поменялся");
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        sendGameStateAndPermission();
+    }
+
+    public void sendData(String data, PrintWriter out) {
+        out.println(data);
+    }
+
+    public void sendDataToAll(String data) {
+        for (PrintWriter out : outputs) {
+            out.println(data);
+        }
+    }
+
+    private String readData(int currentActivePlayer) { // operation, card
+        String data = "";
+        try {
+            data += this.inputs.get(currentActivePlayer).readLine();
+        } catch (IOException ex) {
+            System.out.println("Error Occurred in readObject in ServerSession: " + ex.toString());
+        }
+        return data;
+    }
+
+    private void startGame() {
+        deck = new Deck();
+        deck.shuffle();
+        table = new ArrayList<>();
+        usedTrumpCard = false;
+        try {
+            for (int i = 0; i < 8; i++) {
+                for (Player p : players) {
+                    p.getHand().addCard(deck.drawCard());
+                }
+            }
+            trumpCard = deck.drawCard();
+            currentActivePlayer = whoMakeFirstMove();
+            for(int i = 0; i < currentCount; i++) {
+                String data = "start_game#";
+                data += getPlayerCard(i)  + "#" + trumpCard.toString() + "#" + getPermission(i);
+                sendData(data, outputs.get(i));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getPlayerCard(int indexPlayer) {
+        if(getPlayerByIndex(indexPlayer).getHand().getCardsInHand().isEmpty()) {
+            return "null";
+        }
+        return getPlayerByIndex(indexPlayer).getHand().getCardsInHand().stream().map(Object::toString).collect(Collectors.joining(","));
+    }
+
+    private String getPermission(int indexPlayer) {
+        if(indexPlayer == currentActivePlayer) {
+            return "true";
+        }
+        return "false";
+    }
+
+    private Player getPlayerByIndex(int i) {
+        return players.get(i);
+    }
+
+    private String getEndGame() {
+        String data = "";
+        boolean result = checkWinningState();
+        System.out.println("check win - " + result);
+        String winner_state = result ? getWinner().getName() : "null";
+        System.out.println("отправление данных о конце игры");
+        data += result + "," + winner_state;
+        return data;
+    }
+
+    private Player getWinner() {
+        for(Player p: players) {
+            if(p.getHand().getCardsInHand().isEmpty()) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    private String getTextAction(int indexPlayer) {
+        if (!table.isEmpty()) {
+            if (getPlayerByIndex(indexPlayer).isAttacker()) {
+                return "Бито";
+            } else {
+                return "Взять";
+            }
+        }
+        return "null";
+    }
+
+    private void changeMove() {
+        if (changeMove) {
+        	currentActivePlayer = (currentActivePlayer + 1) % players.size(); // Chuyển lượt theo vòng
+            System.out.println("Lượt chơi đã thay đổi, người chơi tiếp theo là: " + currentActivePlayer);
+//            changeMove = false;  // Đặt lại trạng thái
+        }
+    }
+
+    private void sendGameStateAndPermission() {
+        //read_game#card1, card2, card3 ...#usedTrump#sizeDeck#endGame,nickname#permission#hand#textAction
+        changeMove();
+        for(int i = 0; i < currentCount; i++) {
+            String data = "read_game#";
+            if(table.isEmpty()) {
+                data += "null#";
+            }
+            else {
+                data += table.stream().map(Object::toString)
+                        .collect(Collectors.joining(",")) + "#";
+            }
+            data += usedTrumpCard + "#";
+            data += deck.getSizeOfDeck() + "#";
+            data += getEndGame() + "#";
+            data += getPlayerCard(i) + "#";
+            data += getTextAction(i) + "#";
+            data += getPermission(i);
+            sendData(data, outputs.get(i));
+            if(checkWinningState()) {
+                closeStreams();
+            }
+        }
+    }
+
+    private void closeStreams() {
+        for (int i = 0; i < outputs.size(); i++) {
+            this.outputs.get(i).close();
+        }
+    }
+
+    private boolean checkWinningState() {
+        if (!deck.isEmpty() || !usedTrumpCard) {
+            return false;
+        }
+        for (Player p : players) {
+            if (p.getHand().getCardsInHand().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void cardDrow() throws Exception {
+        if (players.get(0).getHand().getCardsInHand().size() >= 8 && players.get(1).getHand().getCardsInHand().size() >= 8) {
+            return;
+        }
+        Player attacker = players.get(0).isAttacker() ? players.get(0) : players.get(1);
+        Player defending = players.get(0).isAttacker() ? players.get(1) : players.get(0);
+        if (deck.isEmpty()) {
+            if (!usedTrumpCard) {
+                if (attacker.getHand().getCardsInHand().size() >= 8) {
+                    defending.getHand().addCard(trumpCard);
+                } else {
+                    attacker.getHand().addCard(trumpCard);
+                }
+                usedTrumpCard = true;
+            }
+        } else {
+            while (attacker.getHand().getCardsInHand().size() < 8 && !deck.isEmpty()) {
+                attacker.getHand().addCard(deck.drawCard());
+            }
+            while (defending.getHand().getCardsInHand().size() < 8 && !deck.isEmpty()) {
+                defending.getHand().addCard(deck.drawCard());
+            }
+        }
+    }
+
+    private boolean canPutInTable(Card pcard) {
+        if (table.isEmpty()) {
+            return true;
+        } else {
+            if (players.get(currentActivePlayer).isAttacker()) {
+                for (Card card : table) {
+                    if (pcard.getValue().getRank() == card.getValue().getRank()) {
+                        return true;
+                    }
+                }
+            } else {
+                Card card = table.get(table.size() - 1);
+                if (card.getSuit() == trumpCard.getSuit()) {
+                    if (pcard.getSuit() == card.getSuit()) {
+                        return pcard.getValue().getRank() >= card.getValue().getRank();
+                    }
+                } else if (pcard.getSuit() == trumpCard.getSuit() && card.getSuit() != trumpCard.getSuit()) {
+                    return true;
+                } else
+                    return card.getSuit() == pcard.getSuit() && card.getValue().getRank() <= pcard.getValue().getRank();
+            }
+            return false;
+        }
+    }
+
+
+    private int whoMakeFirstMove() {
+        int min_value = 15;
+        for (Card c : players.get(0).getHand().getCardsInHand()) {
+            if (c.getSuit() == trumpCard.getSuit()) {
+                int rank = c.getValue().getRank();
+                if (min_value > rank) {
+                    min_value = rank;
+                }
+            }
+        }
+        for (Card c : players.get(1).getHand().getCardsInHand()) {
+            if (c.getSuit() == trumpCard.getSuit()) {
+                int rank = c.getValue().getRank();
+                if (min_value > rank) {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+}

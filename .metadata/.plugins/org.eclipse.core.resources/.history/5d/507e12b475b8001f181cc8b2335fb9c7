@@ -1,0 +1,32 @@
+package command;
+
+import manager.PlayerManager;
+import manager.Table;
+import player.Player;
+
+public class DiscardCommand implements Command {
+	private PlayerManager playerManager;
+	private Table tableManager;
+
+	public DiscardCommand(PlayerManager playerManager, Table tableManager) {
+		this.playerManager = playerManager;
+		this.tableManager = tableManager;
+	}
+
+	@Override
+	public boolean execute(String[] params) throws Exception {
+		try {
+			System.out.println("bo bai (discard connection)");
+			tableManager.getTable().clear();
+			tableManager.drawCardsForPlayers(playerManager.getPlayers());
+			for (Player player : playerManager.getPlayers()) {
+				player.setAttacker(false);
+			}
+			tableManager.setChangeMove(false);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+ 
+	}
+
+}

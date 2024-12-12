@@ -1,0 +1,98 @@
+package view;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import java.util.ArrayList;
+import java.util.Objects;
+
+import application.GameApplication;
+import card.Card;
+import card.HandForDurak;
+
+public abstract class BaseController {
+
+	@FXML
+	private Button btnAction;
+
+	@FXML
+	private HBox hand;
+
+	@FXML
+	private Label sizeDeck;
+
+	@FXML
+	private FlowPane table;
+
+	@FXML
+	private Label labelTrumpCard; 
+	@FXML
+	private Label labelMove;
+
+	public void setDisableActions(boolean flag) {
+		btnAction.setDisable(!flag);
+		for (Node nd : hand.getChildren()) {
+			nd.setDisable(!flag);
+		}
+		labelMove.setVisible(flag);
+	}
+
+//	public void setEndGame(String nick) {
+//		Util.sendConf(nick);
+//	}
+
+	public void setTextAction(String str) {
+		btnAction.setText(str);
+		if (Objects.equals(str, "Discard")) {
+			System.out.println("DAY LA DISCARD");
+			btnAction.setOnAction(this::discard);
+		} else if (Objects.equals(str, "Take")) {
+			System.out.println("DAY LA TAKE");
+			btnAction.setOnAction(this::take);
+		} else if (Objects.equals(str, "Pass")) {
+			System.out.println("DAY LA PASS");
+			btnAction.setOnAction(this::pass);
+		} else {
+			btnAction.setDisable(true);
+		}
+	}
+
+
+	public void setSize(int i) {
+		sizeDeck.setText(Integer.toString(i));
+	}
+
+	public void take(ActionEvent event) {
+		GameApplication.client.sendGameMove("take_card", null);
+		System.out.println("da gui take_card(controller)");
+		 labelMove.setText("Bạn đã lấy thẻ bài!");
+
+	}
+
+	public void discard(ActionEvent event) {
+		GameApplication.client.sendGameMove("discard", null);
+		System.out.println("da gui discard (controller)");
+	}
+
+	public void pass(ActionEvent event) {
+		GameApplication.client.sendGameMove("pass", null);
+		System.out.println("da gui pass turn (controller)");
+	}
+
+	public void setCardsInHand(HandForDurak handForDurak) {
+	}
+
+	public void setTable(ArrayList<Card> cards) {
+		
+	}
+	
+	public void setTrumpCardImage(Card cd) {
+	}
+
+	public void trumpCardUsed() {
+	}
+}

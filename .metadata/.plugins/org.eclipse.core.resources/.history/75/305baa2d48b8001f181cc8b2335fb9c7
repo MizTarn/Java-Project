@@ -1,0 +1,60 @@
+package game.base;
+
+import command.ParseAndSendData;
+import manager.ConnectionManager;
+import manager.GameManager;
+import player.BotPlayer;
+
+public class BotConnection implements Runnable{
+	private GameManager gameManager;
+	private BotPlayer botPlayer;
+	ParseAndSendData parseAndSendData;
+	ConnectionManager connectionManager;
+	private int idPlayer;
+	public BotConnection(ConnectionManager connectionManager, GameManager gameManager,
+			ParseAndSendData parseAndSendData, int idPlayer) {
+		this.connectionManager = connectionManager;
+		this.gameManager = gameManager;
+		this.parseAndSendData = parseAndSendData;
+		this.setIdPlayer(idPlayer);
+	}
+
+	public GameManager getGameManager() {
+		return gameManager;
+	}
+
+	public void setGameManager(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
+
+	public BotPlayer getBotPlayer() {
+		return botPlayer;
+	}
+
+	public void setBotPlayer(BotPlayer botPlayer) {
+		this.botPlayer = botPlayer;
+	}
+
+	public int getIdBot() {
+		return idBot;
+	}
+
+	public void setIdBot(int idBot) {
+		this.idBot = idBot;
+	}
+
+	@Override
+	public void run() {
+		
+		
+	}
+
+	public int getIdPlayer() {
+		return idPlayer;
+	}
+
+	public void setIdPlayer(int idPlayer) {
+		this.idPlayer = idPlayer;
+	}
+	
+}

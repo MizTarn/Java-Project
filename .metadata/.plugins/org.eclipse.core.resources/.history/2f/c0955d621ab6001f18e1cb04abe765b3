@@ -1,0 +1,72 @@
+package card;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+
+public class Hand implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Card> cardsInHand;
+    private int currentNumOfCard;
+
+    public Hand(ArrayList<Card> cardsInHand) {
+        this.cardsInHand = cardsInHand;
+        this.currentNumOfCard = cardsInHand.size();
+    }
+
+    public Hand() {
+        this.cardsInHand = new ArrayList<>();
+        this.currentNumOfCard = 0;
+    }
+    // Tra ve va loai bo la bai cd ra khoi tay nguoi choi
+    public Card getCard(Card cd) throws Exception {
+        for (Card card : getCardsInHand()) {
+            if (Objects.equals(card.toString(), cd.toString())) {
+                this.cardsInHand.remove(card);
+                currentNumOfCard--;
+                return cd;
+            }
+        }
+        throw new Exception("Нет такой карты в руке");
+    }
+
+    public void addCard(Card cd) throws Exception {
+        if (cd != null) {
+            cardsInHand.add(cd);
+            currentNumOfCard++;
+        } else {
+            throw new Exception("Неверное значение карты");
+        }
+    }
+
+    public void addCards(Collection<Card> cds) throws Exception {
+        if (cds != null) {
+            cardsInHand.addAll(cds);
+            currentNumOfCard += cds.size();
+        } else {
+            throw new Exception("Неверные значения карт");
+        }
+    }
+
+    public void reset() {
+        cardsInHand.clear();
+        currentNumOfCard = 0;
+    }
+
+    public ArrayList<Card> getCardsInHand() {
+        return cardsInHand;
+    }
+
+    @Override
+    public String toString() {
+        String data = "#";
+        for(Card cd: getCardsInHand()) {
+            data += cd.toString() + "#";
+        }
+        return data;
+    }
+}
