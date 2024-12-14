@@ -1,0 +1,71 @@
+package server;
+
+import manager.GameManager;
+import player.Player;
+
+public class BotGameLoop {
+	private BotStrategy botStrategy;
+	private GameManager gameManager;
+	public BotGameLoop(BotStrategy bot, GameManager gameManager) {
+		this.setBot(bot);
+		this.gameManager = gameManager;
+	}
+	public BotStrategy getBot() {
+		return botStrategy;
+	}
+	public void setBot(BotStrategy bot) {
+		this.botStrategy = bot;
+	}
+	
+	public void chooseAction(String action) {
+		if(!gameManager.getTableManager().getDefendingCards().isEmpty()&&
+				botStrategy.chooseCardToDefend(gameManager.getTableManager().getDefendingCards().peek(), 
+					gameManager.getTableManager().getTrumpCard().getSuit()) != null) {
+				String data = "drop_card#" + botStrategy.chooseCardToDefend(gameManager.getTableManager().getDefendingCards().peek(), 
+						gameManager.getTableManager().getTrumpCard().getSuit()).toString() + "#" + "1";
+				parseAndSendData.parseData(data);
+				gameManager.changeMove();
+				connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+						connectionManager.getOutputs().get(0));	
+			}
+			else if(gameManager.getTableManager().getDefendingCards().isEmpty()){
+				System.out.println("con bot dang : " + gameManager.getTurn(1));
+				
+				if("attacker".equals(gameManager.getTurn(1)) && !gameManager.getTableManager().getTable().isEmpty()) {
+					String data2 = "pass#" +  botStrategy.chooseCardToAttack() + "#1";
+					parseAndSendData.parseData(data2);
+					gameManager.changeMove();
+					connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+							connectionManager.getOutputs().get(0));
+				}
+				else if("attacker".equals(gameManager.getTurn(1)) && gameManager.getTableManager().getTable().isEmpty()) {
+					String data2 = "drop_card#" +  botStrategy.chooseCardToAttack() + "#1";
+					parseAndSendData.parseData(data2);
+					gameManager.changeMove();
+					connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+							connectionManager.getOutputs().get(0));
+				}
+				else {
+					String data = "discard#null" + "#1";
+					parseAndSendData.parseData(data);
+					gameManager.changeMove();
+					connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+							connectionManager.getOutputs().get(0));
+					String data2 = "drop_card#" +  botStrategy.chooseCardToAttack() + "#1";
+					parseAndSendData.parseData(data2);
+					gameManager.changeMove();
+					connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+							connectionManager.getOutputs().get(0));
+				}
+				
+			}
+			else {
+				String data = "take_card#" + "null" + "#1";
+				parseAndSendData.parseData(data);
+				gameManager.changeMove();
+				connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+						connectionManager.getOutputs().get(0));
+			}
+			
+	}
+}

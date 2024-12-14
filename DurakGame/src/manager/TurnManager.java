@@ -19,6 +19,6 @@ public class TurnManager {
 
 	public void nextPlayer() {
 		currentActivePlayer = (currentActivePlayer + 1) % playerManager.getPlayers().size();
-	} 
- 
+	}
+
 }

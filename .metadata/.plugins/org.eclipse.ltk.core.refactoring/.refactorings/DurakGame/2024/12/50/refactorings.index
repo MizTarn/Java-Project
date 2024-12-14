@@ -24,3 +24,27 @@
 1733977650934	Encapsulate field 'idBot, ...'
 1733980554860	Encapsulate field 'idPlayer, ...'
 1733999020639	Rename type 'ParseAndSendData'
+1734077544641	Delete element
+1734078663580	Encapsulate field 'bot, ...'
+1734106824459	Delete element
+1734111921461	Move compilation unit
+1734111940164	Move compilation unit
+1734111956170	Move compilation unit
+1734112006427	Delete element
+1734112026169	Move compilation unit
+1734112029806	Move compilation unit
+1734112036357	Move compilation unit
+1734112040087	Move compilation unit
+1734112046972	Move compilation unit
+1734112057773	Move compilation unit
+1734112060716	Move compilation unit
+1734112068340	Delete element
+1734113831513	Move compilation unit
+1734114195113	Rename type 'Util'
+1734114219591	Rename package 'ulti'
+1734114261989	Rename package 'cardparser'
+1734114267307	Move compilation unit
+1734117166003	Rename type 'BotStrategy'
+1734117214201	Encapsulate field 'bot, ...'
+1734117269192	Rename type 'BotController'
+1734120567727	Rename type 'BotGameLoop'

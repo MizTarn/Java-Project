@@ -30,7 +30,7 @@ public class Table {
 		this.trumpCard = trumpCard;
 		this.deck = deck;
 	}
- 
+
 	public Table(Card trumpCard) {
 		this.table = new ArrayList<Card>();
 		this.trumpCard = trumpCard;
@@ -130,7 +130,7 @@ public class Table {
 	public boolean canPutInTable(Card pcard, boolean isAttacker) {
 		if (table.isEmpty()) {
 			return true;
-		} 
+		}
 
 		if (isAttacker) {
 			return table.stream().anyMatch(card -> pcard.getValue().getRank() == card.getValue().getRank());

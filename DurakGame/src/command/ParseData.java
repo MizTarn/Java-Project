@@ -2,8 +2,6 @@ package command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import manager.GameManager;
 
 public class ParseData {

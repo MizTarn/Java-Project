@@ -1,0 +1,180 @@
+package game.base;
+
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
+
+import command.ParseData;
+import manager.ConnectionManager;
+import manager.GameManager;
+import player.Player;
+
+public class BotConnection implements Runnable {
+	private GameManager gameManager;
+	private Player botPlayer;
+	ParseData parseAndSendData;
+	ConnectionManager connectionManager;
+	Client client;
+	private boolean initializeGame = false;
+
+	private int numPlayer;
+	private BotController botController;
+
+	public BotConnection(ConnectionManager connectionManager, GameManager gameManager,
+			ParseData parseAndSendData, int numPlayer, BufferedReader in, PrintWriter out, Player player) {
+		this.connectionManager = connectionManager;
+		this.gameManager = gameManager;
+		this.parseAndSendData = parseAndSendData;
+		this.setNumPlayer(numPlayer);
+		botPlayer = new Player("botplayer");
+		System.out.println("start1");
+		connectionManager.addConnection(in, out);
+		gameManager.getPlayerManager().addPlayer(player);
+		connectionManager.sendDataToAll("started");
+		gameManager.setGameStarted(true);
+		System.out.println("start");
+		gameManager.getPlayerManager().addPlayer(botPlayer);
+		
+	}
+
+//	public void addPlayer(BufferedReader in, PrintWriter out, Player player) {
+//			System.out.println("start1");
+//			connectionManager.addConnection(in, out);
+//			gameManager.getPlayerManager().addPlayer(player);
+//			connectionManager.sendDataToAll("started");
+//			gameManager.setGameStarted(true);
+//			System.out.println("start");
+//
+//	}
+
+	public GameManager getGameManager() {
+		return gameManager;
+	}
+
+	public void setGameManager(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
+
+	public Player getBotPlayer() {
+		return botPlayer;
+	}
+
+	public void setBotPlayer(Player botPlayer) {
+		this.botPlayer = botPlayer;
+	}
+
+	public int getNumPlayer() {
+		return numPlayer;
+	}
+
+	public void setNumPlayer(int numPlayer) {
+		this.numPlayer = numPlayer;
+	}
+	
+	public BotController getBotController() {
+		return botController;
+	}
+
+	public void setBotController(BotController botController) {
+		this.botController = botController;
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("Bắt đầu chạy vòng lặp chính của trò chơi với bot ....");
+
+		while (true) {
+			try {
+				if (gameManager.isGameStarted()) {
+					
+					if (!initializeGame) {
+						System.out.println("hello");
+						System.out.println(gameManager.getPlayerManager().getPlayers().size());
+						gameManager.startGame();
+						this.botController = new BotController(botPlayer);
+						System.out.println("hello");
+						System.out.println("number player: " + gameManager.getPlayerManager().getPlayers().size());
+						System.out.println("player1: " + gameManager.getPlayerCard(0));
+						System.out.println("player2: " + gameManager.getPlayerCard(1));
+						System.out.println("connection: " + connectionManager.getInputs().size());
+						connectionManager.sendData(gameManager.getGameStart(0), connectionManager.getOutputs().get(0));
+						initializeGame = true;
+					}
+					
+					int currentPlayer = gameManager.getTurnManager().getCurrentActivePlayer();
+					System.out.println("Đang chờ dữ liệu từ người chơi: " + currentPlayer);
+					if(currentPlayer == 0) {
+						System.out.println("nhan nao");
+						String data = connectionManager.readData(0);
+						System.out.println("da nhan tu read data");
+
+						if (data != null && !data.isEmpty()) {
+							System.out.println("Dữ liệu nhận được: " + data);
+							parseAndSendData.parseData(data);
+							gameManager.changeMove();
+							connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+														connectionManager.getOutputs().get(0));
+							System.out.println("da nhan duoc");
+							
+						} else {
+							System.out.println("Không nhận được dữ liệu từ người chơi: " + currentPlayer);
+						}
+					}
+					else {
+						if(botController.chooseCardToDefend(gameManager.getTableManager().getDefendingCards().peek(), 
+								gameManager.getTableManager().getTrumpCard().getSuit()) != null
+								&& !gameManager.getTableManager().getDefendingCards().isEmpty()) {
+							String data = "drop_card#" + botController.chooseCardToDefend(gameManager.getTableManager().getDefendingCards().peek(), 
+									gameManager.getTableManager().getTrumpCard().getSuit()).toString() + "#" + "1";
+							parseAndSendData.parseData(data);
+							gameManager.changeMove();
+							connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+									connectionManager.getOutputs().get(0));
+							
+//							String data1 = "read_game#"; 
+//							if (gameManager.getTableManager().isEmpty()) {
+//								data1 += "null#";
+//							} else {
+//								data1 += gameManager.getTableManager().getTable().stream().map(Object::toString).collect(Collectors.joining(",")) + "#";
+//							}
+//							data1 += String.valueOf(gameManager.getTableManager().isUsedTrumpCard()) + "#";
+//							data1 += gameManager.getTableManager().getDeck().getSizeOfDeck() + "#";
+//							data1 += gameManager.getEndGame() + "#";
+//							data1 += gameManager.getPlayerCard(1) + "#";
+//							data1 += gameManager.getTextAction(1) + "#";
+//							data1 += gameManager.getPermission(1) + "#";
+//							data1 += gameManager.getTurn(1);
+//							System.out.println("data trong phan botConnection... la: " + data1);
+						}
+						else if(gameManager.getTableManager().getDefendingCards().isEmpty()){
+							String data = "discard#" + botController.chooseCardToAttack() + "#1";
+							parseAndSendData.parseData(data);
+							gameManager.changeMove();
+							connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+									connectionManager.getOutputs().get(0));
+						}
+						else {
+							String data = "take_card#" + "null" + "#1";
+							parseAndSendData.parseData(data);
+							gameManager.changeMove();
+							connectionManager.sendData(gameManager.getGameStateAndPermission(0),
+									connectionManager.getOutputs().get(0));
+						}
+						
+					}
+					if (gameManager.checkWin()) {
+						System.out.println("Trò chơi kết thúc!");
+						connectionManager.sendDataToAll("end_game#");
+						break;
+					}
+				}
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				System.err.println("Lỗi trong vòng lặp chính: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+}

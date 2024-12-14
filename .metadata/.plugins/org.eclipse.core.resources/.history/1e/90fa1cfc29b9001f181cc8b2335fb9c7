@@ -1,0 +1,43 @@
+package player;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+import card.Card;
+import card.CardComparator;
+
+public class BotPlayer extends Player implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final Comparator<? super Card> comparator = new CardComparator<>();
+
+	public BotPlayer(String name) {
+        super(name); // Gọi lớp cha để thiết lập tên và các thuộc tính chung
+    }
+	
+	public BotPlayer(String name, String id) {
+        super(name, id); // Gọi lớp cha để thiết lập tên và các thuộc tính chung
+    }
+	
+
+	 public Card selectAttackCard() {
+		    // Chọn lá bài nhỏ nhất để tấn công
+		    return this.getHand().getCardsInHand().stream()
+		               .min(comparator)
+		               .orElse(null);
+		}
+	 
+	 public String[] toStringAttackCard() {
+		 String[] strings = null;
+		 strings.
+		 
+		 return  strings;
+	 }
+
+
+
+}
+	

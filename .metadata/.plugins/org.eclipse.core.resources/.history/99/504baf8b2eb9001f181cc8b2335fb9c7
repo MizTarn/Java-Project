@@ -1,0 +1,33 @@
+package game.base;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+import card.Card;
+import card.CardComparator;
+import javafx.scene.Node;
+import player.Player;
+
+public class BotController {
+	private Player bot;
+	public BotController(Player bot) {
+		this.setBot(bot);
+	}
+	
+	public Player getBot() {
+		return bot;
+	}
+
+	public void setBot(Player bot) {
+		this.bot = bot;
+	}
+	
+	public Card chooseCardToAttack() {
+		Card minCard = Collections.min(bot.getHand().getCardsInHand(), Comparator.comparingInt(c -> c.getValue().getRank()));
+		return minCard;
+	}
+	
+	public Card chooseCardToDefend() {
+		
+	}
+}

@@ -9,27 +9,19 @@ public class GameManager {
 	private Table tableManager;
 	private PlayerManager playerManager;
 	private TurnManager turnManager;
-//	private boolean changeMove;
-
-//	private int currentActivePlayer;
 	private boolean gameStarted;
 
 	public GameManager() {
 		tableManager = new Table();
 		playerManager = new PlayerManager();
 		turnManager = new TurnManager(playerManager);
-//		changeMove = false; 
-
 		gameStarted = false;
-//		currentActivePlayer = 0;
 	}
 
 	public GameManager(Table tableManager, PlayerManager players, TurnManager turnManager) {
 		this.tableManager = tableManager;
 		this.playerManager = players;
 		this.turnManager = turnManager;
-//		usedTrumpCard = false;
-//		turnManager.setCurrentActivePlayer(currentActivePlayer);
 		gameStarted = false;
 	}
 
@@ -86,10 +78,10 @@ public class GameManager {
 		tableManager.setDeck(new Deck());
 		tableManager.getDeck().shuffle();
 		tableManager.newTable();
-//		this.usedTrumpCard = false;
 		try {
 			for (int i = 0; i < 8; i++) {
 				for (Player p : playerManager.getPlayers()) {
+					System.out.println("player: " + p);
 					p.getHand().addCard(tableManager.getDeck().drawCard());
 				}
 			}
@@ -107,10 +99,8 @@ public class GameManager {
 	public void changeMove() {
 		if (tableManager.isChangeMove()) {
 			turnManager.nextPlayer();
-			;
-
 		}
- 
+
 	}
 
 	public String getPlayerCard(int indexPlayer) {
@@ -133,7 +123,7 @@ public class GameManager {
 			return "attacker";
 		}
 		return "defender";
-	} 
+	}
 
 	public Player getPlayerByIndex(int i) {
 		return playerManager.getPlayers().get(i);
@@ -161,7 +151,7 @@ public class GameManager {
 		return "null";
 	}
 
-	private String getEndGame() {
+	public String getEndGame() {
 		String data = "";
 		boolean result = checkWin();
 		System.out.println("Ket thuc luot - " + result);
@@ -174,7 +164,7 @@ public class GameManager {
 	public String getGameStateAndPermission(int i) {
 		// read_game#card1, card2, card3
 		// ...#usedTrump#sizeDeck#endGame,nickname#hand#textAction#permission#turn
-		String data = "read_game#"; 
+		String data = "read_game#";
 		if (tableManager.isEmpty()) {
 			data += "null#";
 		} else {
@@ -190,12 +180,10 @@ public class GameManager {
 		System.out.println("data trong phan sendGameState... la: " + data);
 		return data;
 	}
-	
-	public String getGameStart(int i) { 
-		String data = "start_game#" + getPlayerCard(i) + "#"
-				+ getTableManager().getTrumpCard().toString() + "#"
-				+ getPermission(i) + "#" + getTurn(i) + "#"
-				+ String.valueOf(i);
+
+	public String getGameStart(int i) {
+		String data = "start_game#" + getPlayerCard(i) + "#" + getTableManager().getTrumpCard().toString() + "#"
+				+ getPermission(i) + "#" + getTurn(i) + "#" + String.valueOf(i);
 		return data;
 	}
 

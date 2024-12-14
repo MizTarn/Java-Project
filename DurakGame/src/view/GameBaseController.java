@@ -13,8 +13,8 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import application.GameApplication;
 import card.Card;
-import card.CardComparator;
 import card.HandForDurak;
+import cardprocessor.CardComparator;
 
 public class GameBaseController extends BaseController {
 

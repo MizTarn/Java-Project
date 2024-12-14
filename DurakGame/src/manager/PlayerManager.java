@@ -6,7 +6,6 @@ import player.Player;
 
 public class PlayerManager {
 	private ArrayList<Player> players; // Danh sách người chơi
-//	    private int currentActivePlayer;          // Người chơi hiện tại
 
 	public PlayerManager() {
 		this.players = new ArrayList<Player>();
@@ -31,7 +30,7 @@ public class PlayerManager {
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
- 
+
 	// Kiểm tra người chơi thắng
 	public boolean isWinner(Player player) {
 		return player.getHand().getCardsInHand().isEmpty();

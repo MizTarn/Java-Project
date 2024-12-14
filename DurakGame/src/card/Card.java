@@ -2,9 +2,9 @@ package card;
 
 import java.io.Serializable;
 
+import cardprocessor.CardParser;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
-import ulti.Util;
 
 public class Card implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class Card implements Serializable {
 		private Value(int value) {
 			this.value = value;
 		}
-
+ 
 		private static final Value[] values = Value.values();
 
 		public int getRank() {
@@ -46,8 +46,8 @@ public class Card implements Serializable {
 
 	public Card(String val) {
 		String[] data = val.split("-");
-		this.suit = Util.getSuit(data[0]);
-		this.value = Util.getValue(data[1]);
+		this.suit = CardParser.getSuit(data[0]);
+		this.value = CardParser.getValue(data[1]);
 	}
 
 	public Suit getSuit() {
@@ -64,12 +64,22 @@ public class Card implements Serializable {
 	}
 
 	public Image getImage() {
-		String filename = Util.getImageString(this);
+		String filename = this.getImageString(this);
 		System.out.println("name la : " + filename);
 		return new Image(Card.class.getResourceAsStream(filename)); 
 	}
 	
 	public Text getText() {
 		return new Text(toString());
+	}
+	
+	public String getImageString(Card cd) { 
+		String filename = "/cards/";
+		if (cd.getValue().getRank() >= 2 && cd.getValue().getRank() <= 10) {
+			filename += cd.getValue().getRank();
+		} else {
+			filename += cd.getValue().name().toUpperCase();
+		}
+		return filename.concat("-" + cd.getSuit().name().toUpperCase() + ".png");
 	}
 }

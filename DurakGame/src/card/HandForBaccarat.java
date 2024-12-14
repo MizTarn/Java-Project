@@ -2,6 +2,8 @@ package card;
 
 import java.util.ArrayList;
 
+import cardprocessor.CardComparator;
+
 public class HandForBaccarat extends BaseHand{
 	public HandForBaccarat(ArrayList<Card> cardsInHand) {
 		super(cardsInHand);
@@ -11,11 +13,11 @@ public class HandForBaccarat extends BaseHand{
 		super();
 	}
 	
-	 public Card strongestCard() {
+	public Card strongestCard() {
 	        Card cd = getCardsInHand().get(0);
 	        for (Card card : getCardsInHand()) {
 	            // Sử dụng compare để so sánh giữa card và strongestCard
-	            if (new CardComparator().compare(card, cd) > 0) {
+	            if (new CardComparator<Card>().compare(card, cd) > 0) {
 	                cd = card;
 	            }
 	        }

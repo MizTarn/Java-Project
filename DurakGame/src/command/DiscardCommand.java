@@ -12,7 +12,7 @@ public class DiscardCommand implements Command {
 		this.playerManager = playerManager;
 		this.tableManager = tableManager;
 	}
-
+ 
 	@Override
 	public boolean execute(String[] params) throws Exception {
 		try {

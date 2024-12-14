@@ -1,0 +1,39 @@
+package game.base;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+import card.Card;
+import card.CardComparator;
+import javafx.scene.Node;
+import player.Player;
+
+public class BotController {
+	private Player bot;
+	public BotController(Player bot) {
+		this.setBot(bot);
+	}
+	
+	public Player getBot() {
+		return bot;
+	}
+
+	public void setBot(Player bot) {
+		this.bot = bot;
+	}
+	
+	public Card chooseCardToAttack() {
+		Card minCard = Collections.min(bot.getHand().getCardsInHand(), Comparator.comparingInt(c -> c.getValue().getRank()));
+		Card cd = bot.getHand().getCardsInHand().get(0);
+		for(Card c : bot.getHand().getCardsInHand()) {
+			if (c.getSuit().ordinal() < cd.getSuit().ordinal()) {
+				 
+			} else if (c1.getSuit().ordinal() > c2.getSuit().ordinal()) {
+				return 1;
+			} else {
+				return c1.getValue().getRank() - c2.getValue().getRank();
+			}
+		}
+		return cd;
+	}
+}

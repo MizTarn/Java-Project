@@ -110,7 +110,8 @@ public class MenuController {
 			}
 		} 
 	}
-
+	
+ 
 	public void showJoinFailedDialog() {
 		Platform.runLater(() -> {
 			Alert alert = new Alert(Alert.AlertType.ERROR);

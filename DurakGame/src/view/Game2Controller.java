@@ -13,8 +13,8 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import application.GameApplication;
 import card.Card;
-import card.CardComparator;
 import card.HandForDurak;
+import cardprocessor.CardComparator;
 
 public class Game2Controller extends BaseController{
 

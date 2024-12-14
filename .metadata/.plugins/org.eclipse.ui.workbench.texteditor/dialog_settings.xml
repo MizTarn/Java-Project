@@ -3,16 +3,33 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="data2"/>
+		<item value="botController"/>
+		<item value="setGameBaseController"/>
+		<item value="getGameBaseController"/>
+		<item value="setGame2Controller"/>
+		<item value="getGame2Controller"/>
+		<item value="sendGameMove"/>
+		<item value="getImage"/>
+		<item value="setImage"/>
+		<item value="setTextAction"/>
+		<item value="gb"/>
+		<item value="gc"/>
+		<item value="Game2Controller"/>
 		<item value="Hand2"/>
-		<item value="cardD"/>
-		<item value="getPermission"/>
-		<item value="changeMove"/>
-		<item value="startGame"/>
-		<item value="checkWinningState"/>
-		<item value="sendGameStateAndPermission"/>
 		<item value="Player2"/>
 	</list>
 	<list key="replacehistory">
+		<item value="data"/>
+		<item value="botStrategy"/>
+		<item value="setGame2Controller"/>
+		<item value="getGame2Controller"/>
+		<item value="getGameGUIController"/>
+		<item value="setGameBaseController"/>
+		<item value="getGameBaseController"/>
+		<item value="GameBaseController"/>
+		<item value="GameController"/>
+		<item value="getText"/>
 		<item value="Hand"/>
 		<item value="Player"/>
 	</list>

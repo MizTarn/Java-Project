@@ -7,14 +7,14 @@ import card.HandForDurak;
 public class BasePlayer {
 	private String name;
 	private String id;
-	private HandForDurak hand;
+//	private HandForDurak hand;
 
 	public BasePlayer(String name, String id) {
 		this.name = name;
 		this.id = id;
-		hand = new HandForDurak();
+//		hand = new HandForDurak();
 	}
- 
+
 	public BasePlayer() {
 
 	}
@@ -22,7 +22,7 @@ public class BasePlayer {
 	public BasePlayer(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID().toString();
-		hand = new HandForDurak();
+//		hand = new HandForDurak();
 	}
 
 	public String getName() {
@@ -33,18 +33,12 @@ public class BasePlayer {
 		this.name = name;
 	}
 
-	public HandForDurak getHand() {
-		return hand;
-	}
-
-	public void setHand(HandForDurak hand) {
-		this.hand = hand;
-	}
+	
 
 	public String getId() {
 		return id;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.name;

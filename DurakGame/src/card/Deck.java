@@ -12,7 +12,7 @@ public class Deck implements Serializable {
 
 	public Deck() {
 		reset(); 
-	} 
+	}  
 
 	public void reset() {
 		sizeOfDeck = 0;

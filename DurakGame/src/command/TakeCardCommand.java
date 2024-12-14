@@ -25,7 +25,7 @@ public class TakeCardCommand implements Command {
 		tableManager.drawCardsForPlayers(playerManager.getPlayers());
 		tableManager.setChangeMove(true);
 		
-		return true;
+		return true; 
  
 	}
 
