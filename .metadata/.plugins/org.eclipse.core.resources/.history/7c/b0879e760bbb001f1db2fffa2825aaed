@@ -1,0 +1,22 @@
+package view;
+
+import java.io.IOException;
+
+import application.GameApplication;
+import javafx.event.ActionEvent;
+
+public class ChooseModeController {
+	public void loadChoosePlayers(ActionEvent e) throws IOException
+	{
+		SceneLoader.loadScene(e, "/fxml/ChoosePlayers.fxml");
+	}
+	
+	public void goBack (ActionEvent e) throws IOException
+	{
+		SceneLoader.loadScene(e, "/fxml/Durak.fxml");
+	}
+	
+	public void playWithBot(ActionEvent event) {
+		GameApplication.client.joinBotSession("you");
+	}
+}

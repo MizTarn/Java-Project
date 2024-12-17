@@ -1,0 +1,13 @@
+package command;
+
+import manager.BaccaratTable;
+
+public class PlayCommand implements Command {
+	private BaccaratTable tableManager;
+	@Override
+	public boolean execute(String[] params) throws Exception {
+		tableManager.setChangeMove(true);
+		return true;
+	}
+
+}

@@ -1,0 +1,86 @@
+package view;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
+import application.GameApplication;
+import card.Card;
+import card.HandForBaccarat;
+import cardprocessor.CardComparator;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+
+public class BaccaratGameController {
+	@FXML
+	private Button btnAction;
+
+	@FXML
+	private HBox hand;
+
+	@FXML
+	private FlowPane table;
+
+	@FXML
+	private Label labelTrumpCard; 
+	@FXML
+	private Label labelMove;
+
+	private final CardComparator<Node> comparator = new CardComparator<>();
+
+	public void setDisableActions(boolean flag) {
+		btnAction.setDisable(!flag);
+		for (Node nd : hand.getChildren()) {
+			nd.setDisable(!flag);
+		}
+		labelMove.setVisible(flag);
+	}
+
+//	public void setEndGame(String nick) {
+//		Util.sendConf(nick);
+//	}
+
+	public void setTextAction(String str) {
+		btnAction.setText(str);
+		if (Objects.equals(str, "Play")) {
+			System.out.println("DAY LA Play");
+			btnAction.setOnAction(this::play);
+		} else {
+			btnAction.setDisable(true);
+		}
+	}
+
+
+
+	public void play(ActionEvent event) {
+		GameApplication.client.sendGameMove("play", null);
+	}
+
+	public void setCardsInHand(HandForBaccarat updating) {
+		hand.getChildren().clear();
+		if (updating != null) {
+			for (Card cd : updating.getCardsInHand()) { 
+				ImageView iv = new ImageView(cd.getImage()); 
+				iv.setFitHeight(175);
+				iv.setFitWidth(100);
+				iv.setUserData(cd);
+//				iv.setOnMouseClicked(this::drop);
+				System.out.println("DROP CAI NAY (O TRONG Baccarat)");
+				hand.getChildren().add(iv);
+			}
+			FXCollections.sort(hand.getChildren(), comparator);
+		}
+	}
+
+	public void setTable(ArrayList<Card> cards) {
+		
+	}
+	
+	
+}

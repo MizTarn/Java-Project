@@ -1,10 +1,10 @@
 package manager;
 
-public class TurnManager {
+public class TurnManager<T> {
 	private int currentActivePlayer;
-	private PlayerManager playerManager;
+	private PlayerManager<T> playerManager;
 
-	public TurnManager(PlayerManager playerManager) {
+	public TurnManager(PlayerManager<T> playerManager) {
 		this.playerManager = playerManager;
 		this.currentActivePlayer = 0;
 	}
@@ -22,3 +22,4 @@ public class TurnManager {
 	}
 
 }
+ 

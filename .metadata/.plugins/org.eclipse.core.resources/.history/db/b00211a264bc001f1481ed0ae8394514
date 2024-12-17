@@ -1,0 +1,59 @@
+package view;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class WaitController implements Initializable {
+
+    @FXML
+    private Label label;
+    
+    @FXML
+    private Text id;
+
+    private final String playText = "Waiting"; // Phần đầu của chuỗi
+    private final String durakContent = "..."; // Nội dung chữ "DURAK"
+    private StringBuilder displayedText = new StringBuilder(playText); // Lưu trữ chuỗi đã hiển thị
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Hiển thị ban đầu là "PLAY"
+        label.setText(displayedText.toString());
+
+        // Tạo Timeline cho chữ "DURAK"
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE); // Vòng lặp vô hạn
+
+        for (int i = 0; i < durakContent.length(); i++) {
+            final int index = i;
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(i + 0.375), event -> {
+                // Thêm từng chữ của "DURAK" vào chuỗi hiển thị
+                displayedText.append(durakContent.charAt(index));
+                label.setText(displayedText.toString());
+            });
+            timeline.getKeyFrames().add(keyFrame);
+        }
+
+        // Reset sau khi hoàn thành "DURAK" và lặp lại
+        KeyFrame resetKeyFrame = new KeyFrame(Duration.seconds(durakContent.length() + 1), event -> {
+            displayedText = new StringBuilder(playText); // Reset lại chuỗi về "PLAY"
+            label.setText(displayedText.toString());
+        });
+        timeline.getKeyFrames().add(resetKeyFrame);
+
+        // Bắt đầu chạy Timeline
+        timeline.play();
+    }
+    
+    public void setID(String id) {
+    	this.id.setText("ID: " + id);
+    }
+}

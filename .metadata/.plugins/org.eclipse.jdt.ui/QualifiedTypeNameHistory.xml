@@ -3,4 +3,5 @@
     <fullyQualifiedTypeName name="card.Card"/>
     <fullyQualifiedTypeName name="card.Card.Value"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="application.GameApplication"/>
 </qualifiedTypeNameHistroy>

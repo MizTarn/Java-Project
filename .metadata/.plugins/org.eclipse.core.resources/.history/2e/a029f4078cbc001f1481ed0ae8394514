@@ -1,0 +1,160 @@
+package view;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
+
+import javax.swing.text.View;
+
+import application.GameApplication;
+import card.Card;
+import card.HandForDurak;
+import cardprocessor.CardComparator;
+
+public class Game2Controller extends BaseController{
+
+	@FXML
+	private AnchorPane rootContainer;
+
+	@FXML
+	private Button btnAction;
+	private double xAxis;
+	private double yAxis;
+
+	@FXML
+	private HBox hand;
+
+	@FXML
+	private Label sizeDeck;
+
+	@FXML
+	private FlowPane table;
+
+	@FXML
+	private ImageView trumpCardImage;
+
+	@FXML
+	private Label labelTrumpCard;
+	
+	@FXML
+	private Label labelMove;
+	
+	@FXML
+	private ImageView player2Image;
+	
+	@FXML
+	private ImageView player3Image;
+	
+	@FXML
+	private ImageView player4Image;
+	
+	
+	private final CardComparator<Node> comparator = new CardComparator<>();
+
+	public void setCardsInHand(HandForDurak updating) {
+		hand.getChildren().clear();
+		if (updating != null) {
+			for (Card cd : updating.getCardsInHand()) {
+				ImageView iv = new ImageView(cd.getImage());
+				iv.setFitHeight(175);
+				iv.setFitWidth(100);
+				iv.setUserData(cd);
+				iv.setOnMousePressed(event -> {
+					double sceneX = iv.localToScene(0, 0).getX();
+		            double sceneY = iv.localToScene(0, 0).getY();
+
+		            double paneX = rootContainer.sceneToLocal(sceneX, sceneY).getX();
+		            double paneY = rootContainer.sceneToLocal(sceneX, sceneY).getY();
+
+		            if (iv.getParent() == hand) {
+		                hand.getChildren().remove(iv);
+		                rootContainer.getChildren().add(iv);
+		                iv.setLayoutX(paneX);
+		                iv.setLayoutY(paneY);
+		                iv.setTranslateX(0);
+		                iv.setTranslateY(0);
+		            }
+
+					xAxis = event.getSceneX() - iv.getLayoutX();	
+					yAxis = event.getSceneY() - iv.getLayoutY();	
+				});
+				
+				
+				iv.setOnMouseDragged(event -> {
+					iv.setLayoutX(event.getSceneX() - xAxis);
+					iv.setLayoutY(event.getSceneY() - yAxis);
+				});
+				
+				iv.setOnMouseReleased(this::drop);
+				System.out.println("DROP CAI NAY (O TRONG GAME2CONTROLLER)");
+				hand.getChildren().add(iv);
+			}
+			FXCollections.sort(hand.getChildren(), comparator);
+		}
+	}
+
+
+	public void setTrumpCardImage(Card cd) {
+		trumpCardImage.setImage(cd.getImage());
+	}
+
+	public void trumpCardUsed() {
+		trumpCardImage.setImage(null);
+		labelTrumpCard.setVisible(false);
+	} 
+
+	public void setTable(ArrayList<Card> t) {
+		table.getChildren().clear();
+		if (!t.isEmpty()) {
+			for (Card cd : t) {
+				ImageView iv = new ImageView(cd.getImage());
+				iv.setFitHeight(175);
+				iv.setFitWidth(100);
+				iv.setUserData(cd);
+				iv.setDisable(true);
+				table.getChildren().add(iv);
+			}
+		}
+	}
+
+	public void drop(MouseEvent event) {
+		 ImageView iv = (ImageView) event.getSource();
+		    Card cd = (Card) iv.getUserData();
+
+		    if (iv.getParent() == rootContainer) {
+		        GameApplication.client.sendGameMove("drop_card", cd);
+		        System.out.println("Đã gửi drop_card(controller): " + cd);
+
+		        rootContainer.getChildren().remove(iv);
+
+		        table.getChildren().add(iv);
+
+		        iv.setDisable(true);
+		    }
+		System.out.println("da gui drop_card(controller): " + iv.getUserData().toString());
+	}
+	
+	public void setDisablePlayer2Image() {
+		player2Image.setVisible(false);
+	}
+	
+	public void setDisablePlayer3Image() {
+		player3Image.setVisible(false);
+	}
+	
+	public void setDisablePlayer4Image() {
+		player4Image.setVisible(false);
+	}
+	
+	
+}

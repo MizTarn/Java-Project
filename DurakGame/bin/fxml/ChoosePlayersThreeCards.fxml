@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #2E4B37;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ThreeCardsController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goBack" prefHeight="79.0" prefWidth="261.0" style="-fx-background-radius: 200;" text="GO BACK">
+               <font>
+                  <Font name="Algerian" size="43.0" />
+               </font>
+            </Button>
+            <StackPane prefHeight="115.0" prefWidth="900.0">
+               <children>
+                  <Label text="CHOOSE NUMBER OF PLAYERS" textFill="WHITE">
+                     <font>
+                        <Font name="Algerian" size="50.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="488.0" prefWidth="900.0">
+               <children>
+                  <HBox prefHeight="466.0" prefWidth="900.0">
+                     <children>
+                        <StackPane prefHeight="462.0" prefWidth="299.0">
+                           <children>
+                              <VBox prefHeight="466.0" prefWidth="299.0">
+                                 <children>
+                                    <StackPane prefHeight="437.0" prefWidth="299.0">
+                                       <children>
+                                          <ImageView fitHeight="191.0" fitWidth="243.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/2players.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="212.0" prefWidth="299.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#chooseTwo" style="-fx-background-color: grey;" styleClass="btn2" text="2 PLAYERS">
+                                             <font>
+                                                <Font name="Algerian" size="34.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="300.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <StackPane prefHeight="451.0" prefWidth="299.0">
+                                       <children>
+                                          <ImageView fitHeight="184.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/3players.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="238.0" prefWidth="300.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#chooseThree" style="-fx-background-color: gray;" styleClass="btn2" text="3 PLAYERS">
+                                             <font>
+                                                <Font name="Algerian" size="34.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="600.0" prefWidth="302.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <StackPane prefHeight="376.0" prefWidth="302.0">
+                                       <children>
+                                          <ImageView fitHeight="198.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/4players.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="163.0" prefWidth="302.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#chooseFour" style="-fx-background-color: gray;" styleClass="btn2" text="4 PLAYERS">
+                                             <font>
+                                                <Font name="Algerian" size="34.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

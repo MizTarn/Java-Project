@@ -1,0 +1,19 @@
+package command;
+
+import manager.BaccaratTable;
+import manager.PlayerManager;
+import manager.Table;
+
+public class PlayCommand implements Command {
+	private BaccaratTable tableManager;
+	
+	public PlayCommand(PlayerManager<?> playerManager, BaccaratTable tableManager) {
+		this.tableManager = tableManager;
+	}
+	@Override
+	public boolean execute(String[] params) throws Exception {
+		tableManager.setChangeMove(true);
+		return true;
+	}
+
+}

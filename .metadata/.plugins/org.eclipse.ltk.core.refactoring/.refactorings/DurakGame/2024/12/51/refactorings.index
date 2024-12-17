@@ -1,0 +1,48 @@
+1734259534841	Encapsulate field 'numberPlayer, ...'
+1734260236334	Rename type 'MessageHandler'
+1734262079214	Encapsulate field 'baccaratGameController, ...'
+1734276477141	Delete element
+1734278300143	Rename type 'PassCommand'
+1734280206907	Encapsulate field 'deck, ...'
+1734280211144	Encapsulate field 'changeMove, ...'
+1734280215642	Encapsulate field 'table, ...'
+1734281139496	Delete element
+1734371710257	Encapsulate field 'gui, ...'
+1734378171890	Rename type 'DurakMessage'
+1734421749059	Encapsulate field 'isPlay, ...'
+1734435938384	Copy file
+1734439310850	Encapsulate field 'baccaratGameBaseController, ...'
+1734449156423	Move compilation unit
+1734449161653	Move compilation unit
+1734449164139	Move compilation unit
+1734449171825	Move compilation unit
+1734449174588	Move compilation unit
+1734449178078	Move compilation unit
+1734449194226	Move compilation unit
+1734449198352	Move compilation unit
+1734449331760	Rename type 'Table'
+1734449337023	Move compilation unit
+1734449350748	Rename type 'GameManager'
+1734449355486	Move compilation unit
+1734449378763	Move compilation unit
+1734449382101	Move compilation unit
+1734449404966	Move compilation unit
+1734449407372	Move compilation unit
+1734449410525	Move compilation unit
+1734449449883	Rename package 'manager.Durak'
+1734449455525	Rename package 'manager.Baccarat'
+1734449462333	Rename package 'command.Baccarat'
+1734449469389	Rename package 'command.Durak'
+1734449508705	Rename type 'Game2Controller'
+1734449521868	Rename type 'GameBaseController'
+1734449536896	Rename type 'BaseController'
+1734449546361	Move compilation unit
+1734449549759	Move compilation unit
+1734449556884	Move compilation unit
+1734449560586	Move compilation unit
+1734449723053	Move compilation unit
+1734449727120	Move compilation unit
+1734449731962	Move compilation unit
+1734449806113	Rename type 'MenuController'
+1734449811983	Move compilation unit
+1734452141999	Rename type 'NewConnection'

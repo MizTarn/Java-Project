@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.MenuController;
+import view.durak.DurakMenuController;
 
 public class TestGameApplication extends Application { 
 	@SuppressWarnings("exports")
@@ -27,7 +27,7 @@ public class TestGameApplication extends Application {
 		stage = primaryStage;
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/menu.fxml"));
 		Parent root = fxmlLoader.load();
-		MenuController controller = fxmlLoader.getController();
+		DurakMenuController controller = fxmlLoader.getController();
 		client.setMenuController(controller); 
 		stage.setResizable(false);
 		stage.setScene(new Scene(root)); 

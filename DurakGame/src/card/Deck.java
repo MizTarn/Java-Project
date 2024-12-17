@@ -7,6 +7,10 @@ import card.Card.Suit;
 import card.Card.Value;
 
 public class Deck implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Card[] cards = new Card[52];
 	private int sizeOfDeck;
 

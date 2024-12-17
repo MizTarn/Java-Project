@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #2E4B37;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WelcomeSceneController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <StackPane prefHeight="93.0" prefWidth="900.0">
+               <children>
+                  <Label text="WELCOME" textFill="WHITE">
+                     <font>
+                        <Font name="Algerian" size="66.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="417.0" prefWidth="900.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="289.0" prefWidth="450.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <StackPane prefHeight="345.0" prefWidth="450.0">
+                                       <children>
+                                          <ImageView fx:id="threeCardsGame" fitHeight="286.0" fitWidth="374.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/3-card.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="74.0" prefWidth="450.0">
+                                       <children>
+                                          <Text fx:id="threeCardsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <font>
+                                                <Font name="Algerian" size="55.0" />
+                                             </font>
+                                          </Text>
+                                       </children></StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="289.0" prefWidth="450.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <StackPane prefHeight="401.0" prefWidth="450.0">
+                                       <children>
+                                          <ImageView fx:id="durakGame" fitHeight="307.0" fitWidth="327.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/durak.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="durakText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <font>
+                                                <Font name="Algerian" size="55.0" />
+                                             </font>
+                                          </Text>
+                                       </children></StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="93.0" prefWidth="900.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="CLICK ON THE GAME TO PLAY">
+                     <font>
+                        <Font name="Algerian" size="51.0" />
+                     </font>
+                  </Text>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

@@ -15,7 +15,7 @@ public class HandForDurak extends BaseHand implements Serializable {
 	public HandForDurak(ArrayList<Card> cardsInHand) {
 		super(cardsInHand);
 	}
-
+ 
 	public HandForDurak() {
 		super();
 	}

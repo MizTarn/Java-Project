@@ -48,3 +48,21 @@
 1734117214201	Encapsulate field 'bot, ...'
 1734117269192	Rename type 'BotController'
 1734120567727	Rename type 'BotGameLoop'
+1734194188980	Copy package
+1734194218112	Delete element
+1734194243640	Rename package 'application'
+1734194378201	Copy compilation unit
+1734194381064	Move compilation unit
+1734194389911	Move compilation unit
+1734194399686	Delete element
+1734194406752	Move compilation unit
+1734194408895	Move file
+1734194432553	Move compilation unit
+1734194479001	Move compilation unit
+1734194482930	Delete element
+1734195037994	Move file
+1734195042804	Move file
+1734195044677	Move file
+1734195046079	Move file
+1734195048307	Move file
+1734195050361	Move file

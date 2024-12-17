@@ -46,7 +46,7 @@ public class ConnectionManager {
 		}
 		return data;
 	}
-
+ 
 	public void closeStreams() {
 		for (int i = 0; i < outputs.size(); i++) {
 			this.outputs.get(i).close();

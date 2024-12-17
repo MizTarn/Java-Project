@@ -2,11 +2,10 @@ package player;
 
 import java.util.UUID;
 
-import card.HandForDurak;
-
 public class BasePlayer {
 	private String name;
 	private String id;
+	private String gui;
 //	private HandForDurak hand;
 
 	public BasePlayer(String name, String id) {
@@ -33,8 +32,6 @@ public class BasePlayer {
 		this.name = name;
 	}
 
-	
-
 	public String getId() {
 		return id;
 	}
@@ -42,5 +39,13 @@ public class BasePlayer {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	public String getGui() {
+		return gui;
+	}
+
+	public void setGui(String gui) {
+		this.gui = gui;
 	}
 }

@@ -1,0 +1,52 @@
+package player;
+
+import java.io.Serializable;
+
+import card.HandForBaccarat;
+
+public class BaccaratPlayer extends BasePlayer implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	boolean attacker;
+	private boolean isDefender;
+	private HandForBaccarat hand;
+	
+	public BaccaratPlayer(String nickname, String session_id) {
+		super(nickname, session_id);
+		hand = new HandForBaccarat();
+	}
+
+	public BaccaratPlayer(String nickname) {
+		super(nickname);
+		hand = new HandForBaccarat();
+	}
+
+	public void setAttacker(boolean b) {
+		attacker = b;
+	}
+
+	public boolean isAttacker() { 
+		return attacker;
+	}
+
+	public boolean isDefender() {
+		return isDefender;
+	}
+
+	public void setDefender(boolean isDefender) {
+		this.isDefender = isDefender;
+	}
+	
+	public HandForBaccarat getHand() {
+		return hand;
+	}
+
+	public void setHand(HandForBaccarat hand) {
+		this.hand = hand;
+	}
+	
+}

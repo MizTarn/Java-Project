@@ -1,0 +1,11 @@
+package command;
+
+public class PlayCommand implements Command {
+
+	@Override
+	public boolean execute(String[] params) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

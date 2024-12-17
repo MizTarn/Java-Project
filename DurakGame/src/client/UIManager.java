@@ -10,20 +10,34 @@ import javafx.stage.Stage;
 
 public class UIManager {
 	public <T> T openWait() {
-		return loadFXML("/view/waiting.fxml", "WAITING ROOM", GameApplication.stage);
+		return loadFXML("/fxml/waiting.fxml", "WAITING ROOM", GameApplication.stage);
 
 	}
 
 	public <T> T openGameGUI() {
-		return loadFXML("/view/game2.fxml", "GAME", GameApplication.stage); 
+		return loadFXML("/fxml/game2.fxml", "GAME", GameApplication.stage);
 	}
-	
+
 	public <T> T openGameBase() {
-		return loadFXML("/view/gamebase.fxml", "GAME", GameApplication.stage);
+		return loadFXML("/fxml/gamebase.fxml", "GAME", GameApplication.stage);
 	}
 
 	public <T> T openEnd() {
-		return loadFXML("/view/end.fxml", "ENDING", GameApplication.stage); 
+		return loadFXML("/fxml/end.fxml", "ENDING", GameApplication.stage);
+	}
+
+	public <T> T openBaccaratGame() {
+		return loadFXML("/fxml/BaccaratGame.fxml", "BaccaratGame", GameApplication.stage);
+	}
+	
+	public <T> T openBaccaratGameBase() {
+		return loadFXML("/fxml/BaccaratBase.fxml", "BaccaratGame", GameApplication.stage);
+	}
+	public <T> T openWin() {
+		return loadFXML("/fxml/WinningScene.fxml", "Win", GameApplication.stage);
+	}
+	public <T> T openLose() {
+		return loadFXML("/fxml/LosingScene.fxml", "Lose", GameApplication.stage);
 	}
 
 	public <T> T loadFXML(String fxmlFile, String title, Stage stage) {
@@ -42,5 +56,7 @@ public class UIManager {
 		}
 		return null;
 	}
+	
+	
 
 }

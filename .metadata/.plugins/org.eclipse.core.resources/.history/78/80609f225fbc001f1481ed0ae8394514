@@ -1,0 +1,56 @@
+package card;
+
+import java.util.ArrayList;
+
+import cardprocessor.CardComparator;
+
+public class HandForBaccarat extends BaseHand{
+	public HandForBaccarat(ArrayList<Card> cardsInHand) {
+		super(cardsInHand);
+	}
+	
+	public HandForBaccarat() {
+		super();
+	}
+	
+	public Card strongestCard() {
+        Card cd = getCardsInHand().get(0);
+        for (Card card : getCardsInHand()) {
+            int val1 = card.getValue().ordinal();
+            int val2 = cd.getValue().ordinal();
+            if (val1 > val2) {
+                cd = card;
+            }
+            else if (val1 == val2) {
+            	if(card.getSuit().ordinal() > cd.getSuit().ordinal()) {
+            		cd = card;
+            	}
+            }
+        }
+        return cd;
+    }
+
+	
+    // Hàm tính điểm ba cây
+    public int getScore() {
+        int score = 0; // điểm tính tổng 3 lá 
+        for (Card card : getCardsInHand()) {
+            if (card.getValue().ordinal() >10 ){
+                if (card.getValue().ordinal() == 14){
+                    score += 1;
+                } else {
+                    score += 10;
+                }
+            } else {
+                score += card.getValue().ordinal();
+            }
+        }
+        score = score - 10*(score/10);
+        if (score == 0) score = 10;
+        Card cd = strongestCard();
+        int tie_break = 5*cd.getValue().ordinal() + cd.getSuit().ordinal(); // Dùng trong trường hợp có 2 người có tổng điểm bằng nhau
+
+        return score * 100 + tie_break;
+
+    }
+}

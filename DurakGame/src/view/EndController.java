@@ -8,6 +8,6 @@ public class EndController {
 	private Label labelState;
 
 	public void setTextState(String str) {
-		this.labelState.setText(str); 
+		this.labelState.setText(str);
 	}
 }

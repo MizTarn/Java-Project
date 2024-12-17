@@ -1,0 +1,110 @@
+package manager;
+
+public class BaccaratManager implements IGameManager{
+	private Table tableManager;
+	private PlayerManager playerManager;
+	private TurnManager turnManager;
+	private boolean gameStarted;
+	
+	public BaccaratManager() {
+		tableManager = new Table();
+		playerManager = new PlayerManager();
+		turnManager = new TurnManager(playerManager);
+		gameStarted = false;
+	}
+	@Override
+	public boolean isGameStarted() {
+		// TODO Auto-generated method stub
+		return this.gameStarted;
+	}
+
+	@Override
+	public void setGameStarted(boolean gameStarted) {
+		this.gameStarted = gameStarted;
+		
+	}
+
+	@Override
+	public PlayerManager getPlayerManager() {
+		return this.playerManager;
+	}
+
+	@Override
+	public void setPlayerManager(PlayerManager playerManager) {
+		 this.playerManager = playerManager;
+		
+	}
+
+	@Override
+	public int numberPlayers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean checkWin() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public TurnManager getTurnManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTurnManager(TurnManager turnManager) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int whoMakeFirstMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void changeMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getPlayerCard(int indexPlayer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTextAction(int indexPlayer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getEndGame() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getGameStateAndPermission(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getGameStart(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

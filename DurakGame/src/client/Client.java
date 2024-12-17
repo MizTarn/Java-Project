@@ -1,24 +1,31 @@
 package client;
 
 import javafx.application.Platform;
-import view.BaseController;
-import view.MenuController;
+import view.baccarat.BaccaratBaseController;
+import view.baccarat.BaccaratGameController;
+import view.durak.DurakBaseController;
+import view.durak.DurakGameController;
+import view.durak.DurakMenuController;
+
 import java.io.*;
 import java.util.ArrayList;
 import card.Card;
+import card.HandForBaccarat;
 import card.HandForDurak;
 
 public class Client extends GameUpdateListener {
 	private NetworkManager networkManager;
-	private MessageHandler messageHandler;
+	private ClientMessage messageHandler;
 	private String username;
-	private MenuController mc;
+	private DurakMenuController mc;
 	private String idPlayer;
+	private int numberPlayer;
+
 	public Client() {
 		try {
-			networkManager = new NetworkManager("localhost", 12345); 
+			networkManager = new NetworkManager("localhost", 12345);
 			this.setUIManager(new UIManager());
-			messageHandler = new MessageHandler(this);
+			messageHandler = new ClientMessage(this);
 //			this.setMenuController(new MenuController()); 
 //			this.username = mc.getNameMenu();
 			new Thread(this::receive, "Client Receive Thread").start();
@@ -26,8 +33,7 @@ public class Client extends GameUpdateListener {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void receive() {
 		while (true) {
 			try {
@@ -46,7 +52,6 @@ public class Client extends GameUpdateListener {
 		return idPlayer;
 	}
 
-
 	public void setIdPlayer(String idPlayer) {
 		this.idPlayer = idPlayer;
 	}
@@ -58,18 +63,16 @@ public class Client extends GameUpdateListener {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	public void setHandFromData(String[] data, BaseController controller) {
+
+	public void setHandFromData(String[] data, DurakBaseController controller) {
 		ArrayList<Card> cards = new ArrayList<>();
 		for (String str : data) {
 			cards.add(new Card(str));
 		}
 		controller.setCardsInHand(new HandForDurak(cards));
 	}
-	
-	
 
-	public void setTableFromData(String[] data, BaseController controller) {
+	public void setTableFromData(String[] data, DurakBaseController controller) {
 		for (int i = 0; i < data.length; i++) {
 			data[i] = data[i].strip();
 		}
@@ -77,8 +80,19 @@ public class Client extends GameUpdateListener {
 		for (String str : data) {
 			cards.add(new Card(str));
 		}
-//        table = cards;
-		controller.setTable(cards); 
+		controller.setTable(cards);
+	}
+	
+	@Override
+	public void setTableFromData(String[] data, BaccaratBaseController controller) {
+		for (int i = 0; i < data.length; i++) {
+			data[i] = data[i].strip();
+		}
+		ArrayList<Card> cards = new ArrayList<>();
+		for (String str : data) {
+			cards.add(new Card(str));
+		}
+		controller.setTable(cards);
 	}
 
 	public void sendGameMove(String operation, Card card) {
@@ -90,32 +104,99 @@ public class Client extends GameUpdateListener {
 		}
 		networkManager.sendData(data);
 	}
-	
 
-	public void createSession(String name, String s_id) throws NumberFormatException {
+	public void createSession(String name, String s_id, String gui) throws NumberFormatException {
 		if (name == null) {
 			Platform.runLater(() -> mc.showJoinFailedDialog());
 		} else {
 			this.username = name;
-			String data = "create_session" + "#" + name + "#" + s_id;
+			String data = "create_session" + "#" + name + "#" + s_id + "#" + gui;
+//			this.setPlayer(getGame2Controller());
 			networkManager.sendData(data);
 			System.out.println("data trong createSession la: " + data);
 			System.out.println(s_id);
 		}
 	}
 
-	public void joinSession(String username, String session_id) throws ClassCastException {
+	public void joinSession(String username, String session_id, String gui) throws ClassCastException {
 		if (username == null || session_id == null) {
-//    		Platform.runLater(() -> mc.showJoinFailedDialog());
+    		Platform.runLater(() -> mc.showJoinFailedDialog());
 		} else {
 			this.username = username;
-			String data = "join_session#" + this.username + "#" + session_id;
+			String data = "join_session#" + this.username + "#" + session_id + "#" + gui;
+			networkManager.sendData(data);
+			System.out.println(data);
+		}
+	}
+
+	public void createBaccaratSession(String name, String s_id, String gui) throws NumberFormatException {
+		if (name == null) {
+			Platform.runLater(() -> mc.showJoinFailedDialog());
+		} else {
+			this.username = name;
+			String data = "create_session_baccarat" + "#" + name + "#" + s_id + "#" + gui;
+			networkManager.sendData(data);
+			System.out.println("data trong createSession la: " + data);
+			System.out.println(s_id);
+		}
+	}
+
+	public void joinBaccaratSession(String username, String session_id, String gui) throws ClassCastException {
+		if (username == null || session_id == null) {
+    		Platform.runLater(() -> mc.showJoinFailedDialog());
+		} else {
+			this.username = username;
+			String data = "join_session_baccarat#" + this.username + "#" + session_id + "#" + gui;
 			networkManager.sendData(data);
 			System.out.println(data);
 		}
 
 	}
 
+	public void numberPlayer(String number) {
+		networkManager.sendData(number + "#");
+		setNumberPlayer(Integer.parseInt(number));
+		System.out.println("gui so luong nguoi choi la " + number);
 
+	}
+
+	public void setPlayer(DurakGameController controller) {
+		if (this.numberPlayer == 2) {
+			controller.setDisablePlayer3Image();
+			controller.setDisablePlayer4Image();
+		}
+		if (this.numberPlayer == 3) {
+			controller.setDisablePlayer4Image();
+		}
+	}
+
+	public int getNumberPlayer() {
+		return numberPlayer;
+	}
+
+	public void setNumberPlayer(int numberPlayer) {
+		this.numberPlayer = numberPlayer;
+	}
+
+	public void joinBotSession(String username) throws ClassCastException {
+		if (username == null) {
+//    		Platform.runLater(() -> mc.showJoinFailedDialog());
+		} else {
+			this.username = username;
+			String data = "play_with_bot#" + this.username;
+			networkManager.sendData(data);
+			System.out.println(data);
+		}
+	}
+
+	@Override
+	public void setHandFromData(String[] cards_hand, BaccaratBaseController baccaratGameController) {
+		ArrayList<Card> cards = new ArrayList<>();
+		for (String str : cards_hand) {
+			cards.add(new Card(str));
+		}
+		baccaratGameController.setCardsInHand(new HandForBaccarat(cards));
+
+	}
 
 }

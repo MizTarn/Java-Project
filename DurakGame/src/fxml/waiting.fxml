@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #445f44;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WaitController">
+   <children>
+      <Label fx:id="label" alignment="CENTER" layoutX="219.0" layoutY="177.0" text="Waiting">
+         <font>
+            <Font name="Algerian" size="40.0" />
+         </font></Label>
+      <Text fx:id="id" layoutX="177.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id:" textAlignment="CENTER" wrappingWidth="244.63555908203125">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

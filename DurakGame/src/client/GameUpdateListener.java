@@ -1,26 +1,30 @@
 package client;
 
-import view.BaseController;
 import view.EndController;
-import view.Game2Controller;
-import view.GameBaseController;
-import view.MenuController;
 import view.WaitController;
+import view.baccarat.BaccaratBaseController;
+import view.baccarat.BaccaratGameBaseController;
+import view.baccarat.BaccaratGameController;
+import view.durak.DurakBaseController;
+import view.durak.DurakGameBaseController;
+import view.durak.DurakGameController;
+import view.durak.DurakMenuController;
 
-	public abstract class GameUpdateListener{
+public abstract class GameUpdateListener {
 	private NetworkManager networkManager;
 	private UIManager uiManager;
-	private MessageHandler messageHandler;
+	private ClientMessage messageHandler;
 	private WaitController wc;
-	private Game2Controller GameController;
+	private DurakGameController GameController;
 	private EndController ec;
 	private String username;
-	private MenuController mc;
+	private BaccaratGameController baccaratGameController;
+	private BaccaratGameBaseController baccaratGameBaseController;
+	private DurakMenuController mc;
 	private boolean isTurn;
 	private String idPlayer;
-	private GameBaseController GameBaseController;
+	private DurakGameBaseController GameBaseController;
 
-	
 	public EndController getEndController() {
 		return ec;
 	}
@@ -45,16 +49,15 @@ import view.WaitController;
 		this.networkManager = networkManager;
 	}
 
-
 	public void setUIManager(UIManager uiManager) {
 		this.uiManager = uiManager;
 	}
 
-	public MessageHandler getMessageHandler() {
+	public ClientMessage getMessageHandler() {
 		return messageHandler;
 	}
 
-	public void setMessageHandler(MessageHandler messageHandler) {
+	public void setMessageHandler(ClientMessage messageHandler) {
 		this.messageHandler = messageHandler;
 	}
 
@@ -78,19 +81,19 @@ import view.WaitController;
 		return uiManager;
 	}
 
-	public Game2Controller getGame2Controller() {
+	public DurakGameController getGame2Controller() {
 		return GameController;
 	}
 
-	public void setGame2Controller(Game2Controller GameController) {
+	public void setGame2Controller(DurakGameController GameController) {
 		this.GameController = GameController;
 	}
 
-	public void setMenuController(MenuController mc) {
+	public void setMenuController(DurakMenuController mc) {
 		this.mc = mc;
 	}
 
-	public MenuController getMenuController() {
+	public DurakMenuController getMenuController() {
 		return mc;
 	}
 
@@ -101,27 +104,48 @@ import view.WaitController;
 	public void setIdPlayer(String idPlayer) {
 		this.idPlayer = idPlayer;
 	}
-	
-	public GameBaseController getGameBaseController() {
+
+	public DurakGameBaseController getGameBaseController() {
 		return GameBaseController;
 	}
 
-	public void setGameBaseController(GameBaseController GameBaseController) {
+	public void setGameBaseController(DurakGameBaseController GameBaseController) {
 		this.GameBaseController = GameBaseController;
 	}
-	
+
+	public abstract void setHandFromData(String[] cards_hand, DurakBaseController gameBaseController);
+
+	public abstract void setTableFromData(String[] cards_table, DurakBaseController baccaratGameController);
+
+	public void setTableFromData(String[] cards_table, BaccaratBaseController baccaratGameController) {
+
+	}
+
+	public BaccaratGameController getBaccaratGameController() {
+		return baccaratGameController;
+	}
+
+	public void setBaccaratGameController(BaccaratGameController baccaratGameController) {
+		this.baccaratGameController = baccaratGameController;
+	}
+
+	public void setPlayer(DurakGameController game2Controller) {
+
+	}
+
+	public abstract void setHandFromData(String[] cards_hand, BaccaratBaseController baccaratGameController);
+
 	public void receive() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
 
-	public abstract void setHandFromData(String[] cards_hand, BaseController gameBaseController);
+	public BaccaratGameBaseController getBaccaratGameBaseController() {
+		return baccaratGameBaseController;
+	}
 
-	public abstract void setTableFromData(String[] cards_table, BaseController gameBaseController);
-	
-
-
-
+	public void setBaccaratGameBaseController(BaccaratGameBaseController baccaratGameBaseController) {
+		this.baccaratGameBaseController = baccaratGameBaseController;
+	}
 
 }

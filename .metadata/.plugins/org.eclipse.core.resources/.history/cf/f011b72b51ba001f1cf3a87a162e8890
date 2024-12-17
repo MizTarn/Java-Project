@@ -1,0 +1,37 @@
+package manager;
+
+import player.Player;
+
+public interface IGameManager<T> {
+
+	public boolean isGameStarted();
+
+	public void setGameStarted(boolean gameStarted);
+
+	public PlayerManager<T> getPlayerManager();
+
+	public void setPlayerManager(PlayerManager<? extends Player> playerManager);
+
+	public int numberPlayers();
+
+	public boolean checkWin();
+
+	public TurnManager getTurnManager();
+
+	public void setTurnManager(TurnManager turnManager);
+
+	public void startGame();
+
+	public int whoMakeFirstMove();
+
+	public void changeMove();
+
+	public String getPlayerCard(int indexPlayer);
+
+	public String getEndGame();
+
+	public String getGameStateAndPermission(int i);
+
+	public String getGameStart(int i);
+	
+}

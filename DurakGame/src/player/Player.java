@@ -27,7 +27,7 @@ public class Player extends BasePlayer implements Serializable {
 		attacker = b;
 	}
 
-	public boolean isAttacker() {
+	public boolean isAttacker() { 
 		return attacker;
 	}
 

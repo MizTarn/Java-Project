@@ -32,4 +32,4 @@ public class NetworkManager {
 		out.close();
 		socket.close();
 	}
-}
+} 

@@ -1,0 +1,47 @@
+package manager;
+
+import player.Player;
+
+public interface IGameManager {
+
+	public boolean isGameStarted();
+
+	public void setGameStarted(boolean gameStarted);
+
+	public Table getTableManager();
+
+	public void setTableManager(Table tableManager);
+
+	public PlayerManager getPlayerManager();
+
+	public void setPlayerManager(PlayerManager playerManager);
+
+	public int numberPlayers();
+
+	public boolean checkWin();
+
+	public TurnManager getTurnManager();
+
+	public void setTurnManager(TurnManager turnManager);
+
+	public void startGame();
+
+	public int whoMakeFirstMove();
+
+	public void changeMove();
+
+	public String getPlayerCard(int indexPlayer);
+
+	public Player getPlayerByIndex(int i);
+
+	public Player getWinner();
+
+	public String getTextAction(int indexPlayer);
+
+	public String getEndGame();
+
+	public String getGameStateAndPermission(int i);
+
+	public String getGameStart(int i);
+
+}

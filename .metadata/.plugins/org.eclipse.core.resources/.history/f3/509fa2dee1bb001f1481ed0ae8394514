@@ -1,0 +1,26 @@
+package command;
+
+import card.HandForBaccarat;
+import manager.BaccaratTable;
+import manager.PlayerManager;
+import manager.Table;
+import player.BaccaratPlayer;
+
+public class PlayCommand implements Command {
+	private BaccaratTable tableManager;
+	private PlayerManager<BaccaratPlayer> playerManager;
+	
+	public PlayCommand(PlayerManager<BaccaratPlayer> playerManager, BaccaratTable tableManager) {
+		this.tableManager = tableManager;
+		this.playerManager = playerManager;
+	}
+	@Override
+	public boolean execute(String[] params) throws Exception {
+		int idPlayer = Integer.parseInt(params[2]);
+		BaccaratPlayer p = playerManager.getPlayers().get(idPlayer);
+		HandForBaccarat hand = p.getHand();
+		tableManager.setChangeMove(true);
+		return true;
+	}
+
+}
