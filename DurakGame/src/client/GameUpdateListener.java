@@ -135,17 +135,17 @@ public abstract class GameUpdateListener {
 
 	public abstract void setHandFromData(String[] cards_hand, BaccaratBaseController baccaratGameController);
 
-	public void receive() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public BaccaratGameBaseController getBaccaratGameBaseController() {
 		return baccaratGameBaseController;
 	}
 
 	public void setBaccaratGameBaseController(BaccaratGameBaseController baccaratGameBaseController) {
 		this.baccaratGameBaseController = baccaratGameBaseController;
+	}
+	
+	public void receive() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

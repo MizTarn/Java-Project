@@ -2,7 +2,7 @@ package view;
 
 import java.io.IOException;
 
-import application.GameApplication;
+import client.GameApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 

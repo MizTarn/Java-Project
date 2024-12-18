@@ -6,22 +6,22 @@ import card.Deck;
 import manager.IGameManager;
 import manager.PlayerManager;
 import manager.TurnManager;
-import player.Player;
+import player.DurakPlayer;
 
-public class DurakManager implements IGameManager<Player>{
+public class DurakManager implements IGameManager<DurakPlayer>{
 	private DurakTable tableManager;
-	private PlayerManager<Player>  playerManager;
-	private TurnManager<Player> turnManager;
+	private PlayerManager<DurakPlayer>  playerManager;
+	private TurnManager<DurakPlayer> turnManager;
 	private boolean gameStarted;
 
 	public DurakManager() {
 		tableManager = new DurakTable();
-		playerManager = new PlayerManager<Player>();
-		turnManager = new TurnManager<Player>(playerManager);
+		playerManager = new PlayerManager<DurakPlayer>();
+		turnManager = new TurnManager<DurakPlayer>(playerManager);
 		gameStarted = false;
 	}
 
-	public DurakManager(DurakTable tableManager, PlayerManager<Player>  players, TurnManager<Player> turnManager) {
+	public DurakManager(DurakTable tableManager, PlayerManager<DurakPlayer>  players, TurnManager<DurakPlayer> turnManager) {
 		this.tableManager = tableManager;
 		this.playerManager = players;
 		this.turnManager = turnManager;
@@ -44,11 +44,11 @@ public class DurakManager implements IGameManager<Player>{
 		this.tableManager = tableManager;
 	}
 
-	public PlayerManager<Player> getPlayerManager() {
+	public PlayerManager<DurakPlayer> getPlayerManager() {
 		return playerManager;
 	}
 
-	public void setPlayerManager(PlayerManager<Player> playerManager) {
+	public void setPlayerManager(PlayerManager<DurakPlayer> playerManager) {
 		this.playerManager = playerManager;
 	}
 
@@ -60,7 +60,7 @@ public class DurakManager implements IGameManager<Player>{
 		if (!tableManager.getDeck().isEmpty() || !tableManager.isUsedTrumpCard()) {
 			return false;
 		}
-		for (Player p : playerManager.getPlayers()) {
+		for (DurakPlayer p : playerManager.getPlayers()) {
 			if (p.getHand().getCardsInHand().isEmpty()) {
 				return true;
 			}
@@ -69,11 +69,11 @@ public class DurakManager implements IGameManager<Player>{
 
 	}
 
-	public TurnManager<Player> getTurnManager() {
+	public TurnManager<DurakPlayer> getTurnManager() {
 		return turnManager;
 	}
 
-	public void setTurnManager(TurnManager<Player> turnManager) {
+	public void setTurnManager(TurnManager<DurakPlayer> turnManager) {
 		this.turnManager = turnManager;
 	}
 
@@ -83,7 +83,7 @@ public class DurakManager implements IGameManager<Player>{
 		tableManager.newTable();
 		try {
 			for (int i = 0; i < 8; i++) {
-				for (Player p : playerManager.getPlayers()) {
+				for (DurakPlayer p : playerManager.getPlayers()) {
 					System.out.println("player: " + p);
 					p.getHand().addCard(tableManager.getDeck().drawCard());
 				}
@@ -128,12 +128,12 @@ public class DurakManager implements IGameManager<Player>{
 		return "defender";
 	}
 
-	public Player getPlayerByIndex(int i) {
+	public DurakPlayer getPlayerByIndex(int i) {
 		return playerManager.getPlayers().get(i);
 	}
 
-	public Player getWinner() {
-		for (Player p : playerManager.getPlayers()) {
+	public DurakPlayer getWinner() {
+		for (DurakPlayer p : playerManager.getPlayers()) {
 			if (p.getHand().getCardsInHand().isEmpty()) {
 				return p;
 			}
@@ -195,24 +195,15 @@ public class DurakManager implements IGameManager<Player>{
 		String data = "";
 		if(playerManager.getPlayers().get(i).getGui().equals("gui")) {
 			 data = "start_game#" + getPlayerCard(i) + "#" + getTableManager().getTrumpCard().toString() + "#"
-					+ getPermission(i) + "#" + getTurn(i) + "#" + String.valueOf(i);
+					+ getPermission(i) + "#" + getTurn(i) + "#" + String.valueOf(i)+ "#" + String.valueOf(playerManager.getPlayers().size());
 		}
 		else {
 			data = "start_game_base#" + getPlayerCard(i) + "#" + getTableManager().getTrumpCard().toString() + "#"
-					+ getPermission(i) + "#" + getTurn(i) + "#" + String.valueOf(i);
+					+ getPermission(i) + "#" + getTurn(i) + "#" + String.valueOf(i) + "#" + String.valueOf(playerManager.getPlayers().size());
 		}
 		
 		return data;
 	}
 	
-//	public void setDefendPlayer(int idPlayer) {
-//		for (int i = 0; i < playerManager.getPlayers().size(); i++) {
-//			if (i == idPlayer) {
-//				playerManager.getPlayers().get(i).setAttacker(false);
-//			} else {
-//				playerManager.getPlayers().get(i).setAttacker(true);
-//			}
-//		}
-//	}
 
 }

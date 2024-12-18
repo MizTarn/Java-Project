@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import command.Command;
+import command.ParseData;
 import manager.baccarat.BaccaratManager;
 
-public class BaccaratParseData {
+public class BaccaratParseData implements ParseData {
 	private BaccaratManager gameManager;
 	private Map<String, Command> commandMap;
 
@@ -16,7 +17,7 @@ public class BaccaratParseData {
 		initCommands();
 	}
 
-	private void initCommands() { 
+	public void initCommands() { 
 		commandMap.put("play", new PlayCommand(gameManager.getPlayerManager(), gameManager.getTableManager()));
 	}
  
@@ -33,7 +34,7 @@ public class BaccaratParseData {
 			}
 
 		} catch (Exception e) {
-			System.err.println("Lỗi khi xử lý dữ liệu: " + e.getMessage());
+			System.out.println("Lỗi khi xử lý dữ liệu: " + e.getMessage());
 		}
 	}
 }

@@ -1,0 +1,8 @@
+package command;
+
+public interface ParseData {
+	
+	public void initCommands();
+
+	public void parseData(String data);
+}

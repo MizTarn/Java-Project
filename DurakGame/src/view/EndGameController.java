@@ -5,28 +5,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class EndGameController implements Initializable{
+public class EndGameController implements Initializable, EndController{
 	@FXML
 	private VBox rootPane;
 	

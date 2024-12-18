@@ -1,0 +1,71 @@
+package server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+public class ConnectionManager {
+	private ArrayList<PrintWriter> outputs; 
+	private ArrayList<BufferedReader> inputs;
+
+	public ConnectionManager(ArrayList<PrintWriter> outputs, ArrayList<BufferedReader> inputs) {
+		this.outputs = outputs;
+		this.inputs = inputs;
+	}
+
+	public ConnectionManager() {
+		outputs = new ArrayList<>();
+		inputs = new ArrayList<>(); 
+	}
+
+	public void addConnection(BufferedReader in, PrintWriter out) {
+		inputs.add(in);
+		outputs.add(out);
+	}
+
+	public void sendData(String data, PrintWriter out) {
+//	        PrintWriter out = outputs.get(playerIndex);
+		out.println(data);
+		System.out.println("Data sent to player " + ": " + data);
+	}
+
+	public void sendDataToAll(String data) {
+		System.out.println("da send da ta to all");
+		for (PrintWriter out : outputs) {
+			out.println(data);
+		}
+	}
+
+	public String readData(int currentActivePlayer) { // operation, card
+		String data = "";
+		try {
+			data += this.inputs.get(currentActivePlayer).readLine();
+		} catch (IOException ex) {
+			System.out.println("Error Occurred in readObject in ServerSession: " + ex.toString());
+		}
+		return data;
+	}
+ 
+	public void closeStreams() {
+		for (int i = 0; i < outputs.size(); i++) {
+			this.outputs.get(i).close();
+		}
+	}
+
+	public ArrayList<PrintWriter> getOutputs() {
+		return outputs;
+	}
+
+	public void setOutputs(ArrayList<PrintWriter> outputs) {
+		this.outputs = outputs;
+	}
+
+	public ArrayList<BufferedReader> getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(ArrayList<BufferedReader> inputs) {
+		this.inputs = inputs;
+	}
+}

@@ -1,0 +1,206 @@
+package server;
+
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
+import command.baccarat.BaccaratParseData;
+import command.durak.ParseData;
+import manager.IGameManager;
+import manager.baccarat.BaccaratManager;
+import manager.durak.DurakManager;
+import player.BaccaratPlayer;
+import player.BasePlayer;
+import player.Player;
+
+public class ServerConnection implements Runnable {
+	private ConnectionManager connectionManager;
+	private DurakManager gameManager;
+	private BaccaratManager baccaratManager;
+	private ParseData parseAndSendData;
+	private BaccaratParseData baccaratParseData;
+	private boolean initializeGame = false;
+	private int numberPlayer;
+
+	public ServerConnection() { 
+		connectionManager = new ConnectionManager();
+		gameManager = new DurakManager();
+		parseAndSendData = new ParseData(gameManager);
+		numberPlayer = 2;
+	}
+
+	// dependency injection
+	public ServerConnection(ConnectionManager connectionManager, DurakManager gameManager,
+			ParseData parseAndSendData, int numberPlayer) {
+		System.out.println("chay tan");
+		this.connectionManager = connectionManager;
+		this.gameManager = gameManager;
+		this.parseAndSendData = parseAndSendData;
+		this.numberPlayer = numberPlayer;
+		this.baccaratParseData = null;
+		this.baccaratManager = null;
+	}
+	
+	public ServerConnection(ConnectionManager connectionManager, BaccaratManager baccaratManager,
+			BaccaratParseData baccaratParseData, int numberPlayer) {
+		System.out.println("chay baccarat");
+		this.connectionManager = connectionManager;
+		this.baccaratManager = baccaratManager;
+		this.baccaratParseData = baccaratParseData;
+		this.numberPlayer = numberPlayer;
+		this.parseAndSendData = null;
+		this.gameManager = null;
+	}
+
+
+//	public void addPlayer(BufferedReader in, PrintWriter out, Player h) {
+//		connectionManager.addConnection(in, out);
+//		gameManager.getPlayerManager().addPlayer(h);
+//		connectionManager.sendDataToAll("waiting#" + h.getId());
+//		System.out.println("WAITING....(Connection)");
+//	}
+//	
+//	public void addPlayer(BufferedReader in, PrintWriter out, BaccaratPlayer h) {
+//		connectionManager.addConnection(in, out);
+//		baccaratManager.getPlayerManager().addPlayer(h);
+//		connectionManager.sendDataToAll("waiting#" + h.getId());
+//		System.out.println("WAITING....(Connection)");
+//	}
+	
+	public <T extends BasePlayer> void addPlayer(BufferedReader in, PrintWriter out, T player, IGameManager<T> manager) {
+	    connectionManager.addConnection(in, out); // Thêm kết nối
+	    manager.getPlayerManager().addPlayer(player); // Thêm người chơi vào quản lý
+	    connectionManager.sendDataToAll("waiting#" + player.getId()); // Gửi thông điệp đến tất cả
+	    System.out.println("WAITING....(Connection)");
+	}
+
+	public void addStreams(BufferedReader in, PrintWriter out, Player player, DurakManager gameManager) {
+		if (gameManager.getPlayerManager().getPlayers().size() < numberPlayer) {
+			this.addPlayer(in, out, player, gameManager);
+			
+			if (gameManager.getPlayerManager().getPlayers().size() == numberPlayer) {
+				for(int i = 0; i <  gameManager.getPlayerManager().getPlayers().size(); i++) {
+					if(gameManager.getPlayerByIndex(i).getGui().equals("gui")) {
+						connectionManager.sendData("started", connectionManager.getOutputs().get(i));
+					}
+					else {
+						connectionManager.sendData("started_base", connectionManager.getOutputs().get(i));
+					}
+				}
+//				connectionManager.sendDataToAll("started");
+				gameManager.setGameStarted(true);
+			} 
+		} 
+		else {
+			connectionManager.sendData("join_session_failed", out);
+		}
+	}
+	
+	public void addStreams(BufferedReader in, PrintWriter out, BaccaratPlayer player) {
+		if (baccaratManager.getPlayerManager().getPlayers().size() < numberPlayer) {
+			this.addPlayer(in, out, player);
+			
+			if (baccaratManager.getPlayerManager().getPlayers().size() == numberPlayer) {
+				for(int i = 0; i <  baccaratManager.getPlayerManager().getPlayers().size(); i++) {
+					if(baccaratManager.getPlayerManager().getPlayers().get(i).getGui().equals("gui")) {
+						connectionManager.sendData("started_baccarat", connectionManager.getOutputs().get(i));
+					}
+					else {
+						connectionManager.sendData("started_baccarat_base", connectionManager.getOutputs().get(i));
+					}
+				}
+//				connectionManager.sendDataToAll("started_baccarat");
+				baccaratManager.setGameStarted(true);
+			} 
+		} 
+		else {
+			connectionManager.sendData("join_session_failed", out);
+		}
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Bắt đầu chạy vòng lặp chính của trò chơi...");
+
+		while (true) {
+			try {
+				if(this.baccaratManager == null) {
+					if (gameManager.isGameStarted()) { 
+						if (!initializeGame) {
+							gameManager.startGame();
+							for (int i = 0; i < gameManager.getPlayerManager().getPlayers().size(); i++) {
+								connectionManager.sendData(gameManager.getGameStart(i), connectionManager.getOutputs().get(i));
+							}
+							initializeGame = true;
+						}
+	 
+						int currentPlayer = gameManager.getTurnManager().getCurrentActivePlayer();
+						System.out.println("day la game tan");
+						System.out.println("Đang chờ dữ liệu từ người chơi: " + currentPlayer);
+							
+						String data = connectionManager.readData(currentPlayer);
+						if (data != null && !data.isEmpty()) {
+							System.out.println("Dữ liệu nhận được: " + data);
+							parseAndSendData.parseData(data);
+							gameManager.changeMove();
+							for (int i = 0; i < gameManager.getPlayerManager().getPlayers().size(); i++) {
+								connectionManager.sendData(gameManager.getGameStateAndPermission(i),
+										connectionManager.getOutputs().get(i));
+							}
+
+						} else {
+							System.out.println("Không nhận được dữ liệu từ người chơi: " + currentPlayer);
+						}
+
+						if (gameManager.checkWin()) {
+							System.out.println("Trò chơi kết thúc!");
+							connectionManager.sendDataToAll("end_game#");
+							break;
+						}
+					}
+					Thread.sleep(1000);
+				}
+				else {
+					if (baccaratManager.isGameStarted()) { 
+						if (!initializeGame) {
+							baccaratManager.startGame();
+							for (int i = 0; i < baccaratManager.getPlayerManager().getPlayers().size(); i++) {
+								connectionManager.sendData(baccaratManager.getGameStart(i), connectionManager.getOutputs().get(i));
+							}
+							initializeGame = true;
+						}
+	 
+						int currentPlayer = baccaratManager.getTurnManager().getCurrentActivePlayer();
+						System.out.println("day la game baccarat");
+						System.out.println("Đang chờ dữ liệu từ người chơi: " + currentPlayer);
+							
+						String data = connectionManager.readData(currentPlayer);
+						if (data != null && !data.isEmpty()) {
+							System.out.println("Dữ liệu nhận được: " + data);
+							baccaratParseData.parseData(data);
+							baccaratManager.changeMove();
+							for (int i = 0; i < baccaratManager.getPlayerManager().getPlayers().size(); i++) {
+								connectionManager.sendData(baccaratManager.getGameStateAndPermission(i),
+										connectionManager.getOutputs().get(i));
+							}
+
+						} else {
+							System.out.println("Không nhận được dữ liệu từ người chơi: " + currentPlayer);
+						}
+
+						if (baccaratManager.checkWin()) {
+							System.out.println("Trò chơi kết thúc!");
+							connectionManager.sendDataToAll("end_game#");
+							break;
+						}
+					}
+					Thread.sleep(1000);
+				}
+				
+			} catch (Exception e) {
+				System.err.println("Lỗi trong vòng lặp chính: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

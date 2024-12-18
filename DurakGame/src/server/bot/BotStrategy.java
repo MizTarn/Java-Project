@@ -5,19 +5,19 @@ import java.util.Comparator;
 
 import card.Card;
 import card.Card.Suit;
-import player.Player;
+import player.DurakPlayer;
 
 public class BotStrategy {
-	private Player bot;
-	public BotStrategy(Player bot) {
+	private DurakPlayer bot;
+	public BotStrategy(DurakPlayer bot) {
 		this.setBot(bot);
 	}
 	
-	public Player getBot() {
+	public DurakPlayer getBot() {
 		return bot;
 	}
 
-	public void setBot(Player bot) {
+	public void setBot(DurakPlayer bot) {
 		this.bot = bot;
 	}
 	

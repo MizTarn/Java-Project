@@ -1,8 +1,8 @@
 package client;
 
 import javafx.application.Platform;
+import view.ErrorController;
 import view.baccarat.BaccaratBaseController;
-import view.baccarat.BaccaratGameController;
 import view.durak.DurakBaseController;
 import view.durak.DurakGameController;
 import view.durak.DurakMenuController;
@@ -107,7 +107,7 @@ public class Client extends GameUpdateListener {
 
 	public void createSession(String name, String s_id, String gui) throws NumberFormatException {
 		if (name == null) {
-			Platform.runLater(() -> mc.showJoinFailedDialog());
+			Platform.runLater(() -> ErrorController.showJoinFailedDialog());
 		} else {
 			this.username = name;
 			String data = "create_session" + "#" + name + "#" + s_id + "#" + gui;
@@ -120,7 +120,7 @@ public class Client extends GameUpdateListener {
 
 	public void joinSession(String username, String session_id, String gui) throws ClassCastException {
 		if (username == null || session_id == null) {
-    		Platform.runLater(() -> mc.showJoinFailedDialog());
+    		Platform.runLater(() -> ErrorController.showJoinFailedDialog());
 		} else {
 			this.username = username;
 			String data = "join_session#" + this.username + "#" + session_id + "#" + gui;
@@ -131,7 +131,7 @@ public class Client extends GameUpdateListener {
 
 	public void createBaccaratSession(String name, String s_id, String gui) throws NumberFormatException {
 		if (name == null) {
-			Platform.runLater(() -> mc.showJoinFailedDialog());
+			Platform.runLater(() ->ErrorController.showJoinFailedDialog());
 		} else {
 			this.username = name;
 			String data = "create_session_baccarat" + "#" + name + "#" + s_id + "#" + gui;
@@ -143,7 +143,7 @@ public class Client extends GameUpdateListener {
 
 	public void joinBaccaratSession(String username, String session_id, String gui) throws ClassCastException {
 		if (username == null || session_id == null) {
-    		Platform.runLater(() -> mc.showJoinFailedDialog());
+    		Platform.runLater(() -> ErrorController.showJoinFailedDialog());
 		} else {
 			this.username = username;
 			String data = "join_session_baccarat#" + this.username + "#" + session_id + "#" + gui;

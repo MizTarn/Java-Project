@@ -1,0 +1,149 @@
+package server;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Objects;
+
+import command.baccarat.BaccaratParseData;
+import command.durak.ParseData;
+import manager.PlayerManager;
+import manager.TurnManager;
+import manager.baccarat.BaccaratManager;
+import manager.baccarat.BaccaratTable;
+import manager.durak.DurakManager;
+import manager.durak.DurakTable;
+import player.BaccaratPlayer;
+import player.Player;
+import server.bot.BotConnection;
+
+public class Server {
+	private static ServerSocket server;
+	private static HashMap<String, ServerConnection> connections = new HashMap<>();
+
+	
+	
+	
+	public static void main(String[] args) {
+		try {
+			server = new ServerSocket(12345);
+			// Khởi tạo các đối tượng phụ thuộc
+
+			int numberPlayer = 0;
+
+			while (true) {
+				Socket socket = server.accept();
+				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+				while (true) {
+					String[] data = in.readLine().split("#");
+					String operation = data[0];
+					if (operation != null) {
+						if (Objects.equals(operation, "create_session")) {
+							DurakTable tableManager = new DurakTable();
+							PlayerManager<Player> playerManager = new PlayerManager<Player>();
+							TurnManager<Player> turnManager = new TurnManager<Player>(playerManager);
+							ConnectionManager connectionManager = new ConnectionManager();
+							// Khởi tạo GameManager
+							DurakManager gameManager = new DurakManager(tableManager, playerManager, turnManager);
+							// Khởi tạo ParseAndSendData
+							ParseData parseAndSendData = new ParseData(gameManager);
+							String nickname = data[1];
+							String session_id = data[2];
+							String gui = data[3];
+							System.out.println("data3 la :" + data[3]);
+							Player host = new Player(nickname, session_id);
+							host.setGui(gui);
+							ServerConnection connection = new ServerConnection(connectionManager, gameManager,
+									parseAndSendData, numberPlayer);
+							connection.addPlayer(in, out, host);
+
+							connections.put(host.getId(), connection);
+							Thread con = new Thread(connection);
+							con.setDaemon(true);
+							con.start();
+							break;
+						} else if (Objects.equals(operation, "join_session")) {
+							String nickname = data[1];
+							String session_id = data[2];
+							String gui = data[3];
+							System.out.println("data3 la :" + data[3]);
+							Player member = new Player(nickname);
+							member.setGui(gui);
+							if (connections.containsKey(session_id)) {
+								connections.get(session_id).addStreams(in, out, member);
+							} else {
+								out.println("join_session_failed");
+							}
+							break;
+						} else if (Objects.equals(operation, "play_with_bot")) {
+							DurakTable tableManager = new DurakTable();
+							PlayerManager<Player> playerManager = new PlayerManager<Player>();
+							TurnManager<Player> turnManager = new TurnManager<Player>(playerManager);
+							ConnectionManager connectionManager = new ConnectionManager();
+							// Khởi tạo GameManager với Dependency Injection
+							DurakManager gameManager = new DurakManager(tableManager, playerManager, turnManager);
+							// Khởi tạo ParseAndSendData
+							ParseData parseAndSendData = new ParseData(gameManager);
+							Player host = new Player(data[1]);
+							host.setGui("gui");
+							BotConnection connection = new BotConnection(connectionManager, gameManager,
+									parseAndSendData, 1);
+							connection.add(in, out, host);
+							Thread con = new Thread(connection);
+							con.setDaemon(true);
+							con.start();
+							break;
+						} else if (Objects.equals(operation, "create_session_baccarat")) {
+							BaccaratTable tableManager = new BaccaratTable();
+							PlayerManager<BaccaratPlayer> playerManager = new PlayerManager<BaccaratPlayer>();
+							TurnManager<BaccaratPlayer> turnManager = new TurnManager<BaccaratPlayer>(playerManager);
+							ConnectionManager connectionManager = new ConnectionManager();
+							// Khởi tạo GameManager với Dependency Injection
+							BaccaratManager gameManager = new BaccaratManager(tableManager, playerManager, turnManager);
+
+							// Khởi tạo ParseAndSendData
+							BaccaratParseData parseAndSendData = new BaccaratParseData(gameManager);
+							String nickname = data[1];
+							String session_id = data[2];
+							String gui = data[3];
+							BaccaratPlayer host = new BaccaratPlayer(nickname, session_id);
+							host.setGui(gui);
+							ServerConnection connection = new ServerConnection(connectionManager, gameManager,
+									parseAndSendData, numberPlayer);
+							connection.addPlayer(in, out, host);
+							connections.put(host.getId(), connection);
+							Thread con = new Thread(connection);
+							con.setDaemon(true);
+							con.start();
+							break;
+						} else if (Objects.equals(operation, "join_session_baccarat")) {
+							String nickname = data[1];
+							String session_id = data[2];
+							String gui = data[3];
+							BaccaratPlayer member = new BaccaratPlayer(nickname);
+							member.setGui(gui);
+							if (connections.containsKey(session_id)) {
+								connections.get(session_id).addStreams(in, out, member);
+							} else {
+								out.println("join_session_failed");
+							}
+							break;
+
+						} else {
+							numberPlayer = Integer.parseInt(operation);
+						}
+					} else {
+						socket.close();
+					}
+
+				}
+			}
+		} catch (IOException ex) {
+			System.out.println("Error occurred in main in ServerHandler: " + ex.toString());
+			ex.printStackTrace();
+		}
+	}
+}

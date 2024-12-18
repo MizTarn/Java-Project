@@ -12,10 +12,10 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-import application.GameApplication;
 import card.Card;
 import card.HandForDurak;
 import cardprocessor.CardComparator;
+import client.GameApplication;
 
 public class DurakGameBaseController extends DurakBaseController {
 

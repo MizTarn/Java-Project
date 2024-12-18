@@ -11,9 +11,9 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import application.GameApplication;
 import card.Card;
 import card.HandForDurak;
+import client.GameApplication;
 
 public abstract class DurakBaseController {
 
@@ -70,7 +70,7 @@ public abstract class DurakBaseController {
 	public void take(ActionEvent event) {
 		GameApplication.client.sendGameMove("take_card", null);
 		System.out.println("da gui take_card(controller)");
-		 labelMove.setText("Bạn đã lấy thẻ bài!");
+		 labelMove.setText("You have taken the card!");
 
 	}
 

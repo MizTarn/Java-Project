@@ -2,7 +2,6 @@ package client;
 
 import java.io.IOException;
 
-import application.GameApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

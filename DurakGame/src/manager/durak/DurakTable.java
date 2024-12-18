@@ -5,13 +5,12 @@ import java.util.Stack;
 
 import card.Card;
 import card.Deck;
-import player.Player;
+import player.DurakPlayer;
 
 public class DurakTable {
 	private ArrayList<Card> table;
 	private Card trumpCard;
 	private Stack<Card> defendingCards;
-	private Stack<Card> attackingCards;
 	private Deck deck;
 	private boolean changeMove;
 	private boolean usedTrumpCard;
@@ -21,7 +20,7 @@ public class DurakTable {
 		this.deck = new Deck();
 		this.setChangeMove(false);
 		defendingCards = new Stack<Card>();
-		attackingCards = new Stack<Card>();
+		new Stack<Card>();
 		usedTrumpCard = false;
 	}
 
@@ -73,17 +72,17 @@ public class DurakTable {
 		this.defendingCards = defendingCards;
 	}
 
-	public Stack<Card> getAttackingCards() {
-		return attackingCards;
-	}
-
-	public void setAttackingCards(Stack<Card> attackingCards) {
-		this.attackingCards = attackingCards;
-	}
-
-	public void addAttackingCard(Card card) {
-		attackingCards.add(card);
-	}
+//	public Stack<Card> getAttackingCards() {
+//		return attackingCards;
+//	}
+//
+//	public void setAttackingCards(Stack<Card> attackingCards) {
+//		this.attackingCards = attackingCards;
+//	}
+//
+//	public void addAttackingCard(Card card) {
+//		attackingCards.add(card);
+//	}
 
 	public void addDefendingCards(Card card) {
 		defendingCards.add(card);
@@ -110,13 +109,13 @@ public class DurakTable {
 
 	}
 
-	public void addCardToTable(Card card, int currentPlayer, ArrayList<Player> players) {
+	public void addCardToTable(Card card, int currentPlayer, ArrayList<DurakPlayer> players) {
 		// Logic thêm bài vào bàn.
 		table.add(card);
 	}
 
-	public void drawCardsForPlayers(ArrayList<Player> players) throws Exception {
-		for (Player player : players) {
+	public void drawCardsForPlayers(ArrayList<DurakPlayer> players) throws Exception {
+		for (DurakPlayer player : players) {
 			while (player.getHand().getCardsInHand().size() < 8 && !deck.isEmpty()) {
 				player.getHand().getCardsInHand().add(deck.drawCard());
 			}

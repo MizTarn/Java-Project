@@ -2,8 +2,6 @@ package card;
 
 import java.util.ArrayList;
 
-import cardprocessor.CardComparator;
-
 public class HandForBaccarat extends BaseHand {
 	public HandForBaccarat(ArrayList<Card> cardsInHand) {
 		super(cardsInHand);

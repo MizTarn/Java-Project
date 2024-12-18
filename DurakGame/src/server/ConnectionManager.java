@@ -25,7 +25,6 @@ public class ConnectionManager {
 	}
 
 	public void sendData(String data, PrintWriter out) {
-//	        PrintWriter out = outputs.get(playerIndex);
 		out.println(data);
 		System.out.println("Data sent to player " + ": " + data);
 	}

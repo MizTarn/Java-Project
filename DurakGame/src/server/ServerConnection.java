@@ -4,17 +4,19 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 
 import command.baccarat.BaccaratParseData;
-import command.durak.ParseData;
+import command.durak.DurakParseData;
+import manager.IGameManager;
 import manager.baccarat.BaccaratManager;
 import manager.durak.DurakManager;
 import player.BaccaratPlayer;
-import player.Player;
+import player.BasePlayer;
+import player.DurakPlayer;
 
 public class ServerConnection implements Runnable {
 	private ConnectionManager connectionManager;
 	private DurakManager gameManager;
 	private BaccaratManager baccaratManager;
-	private ParseData parseAndSendData;
+	private DurakParseData parseAndSendData;
 	private BaccaratParseData baccaratParseData;
 	private boolean initializeGame = false;
 	private int numberPlayer;
@@ -22,13 +24,13 @@ public class ServerConnection implements Runnable {
 	public ServerConnection() { 
 		connectionManager = new ConnectionManager();
 		gameManager = new DurakManager();
-		parseAndSendData = new ParseData(gameManager);
+		parseAndSendData = new DurakParseData(gameManager);
 		numberPlayer = 2;
 	}
 
 	// dependency injection
 	public ServerConnection(ConnectionManager connectionManager, DurakManager gameManager,
-			ParseData parseAndSendData, int numberPlayer) {
+			DurakParseData parseAndSendData, int numberPlayer) {
 		System.out.println("chay tan");
 		this.connectionManager = connectionManager;
 		this.gameManager = gameManager;
@@ -50,23 +52,30 @@ public class ServerConnection implements Runnable {
 	}
 
 
-	public void addPlayer(BufferedReader in, PrintWriter out, Player h) {
-		connectionManager.addConnection(in, out);
-		gameManager.getPlayerManager().addPlayer(h);
-		connectionManager.sendDataToAll("waiting#" + h.getId());
-		System.out.println("WAITING....(Connection)");
-	}
+//	public void addPlayer(BufferedReader in, PrintWriter out, Player h) {
+//		connectionManager.addConnection(in, out);
+//		gameManager.getPlayerManager().addPlayer(h);
+//		connectionManager.sendDataToAll("waiting#" + h.getId());
+//		System.out.println("WAITING....(Connection)");
+//	}
+//	
+//	public void addPlayer(BufferedReader in, PrintWriter out, BaccaratPlayer h) {
+//		connectionManager.addConnection(in, out);
+//		baccaratManager.getPlayerManager().addPlayer(h);
+//		connectionManager.sendDataToAll("waiting#" + h.getId());
+//		System.out.println("WAITING....(Connection)");
+//	}
 	
-	public void addPlayer(BufferedReader in, PrintWriter out, BaccaratPlayer h) {
-		connectionManager.addConnection(in, out);
-		baccaratManager.getPlayerManager().addPlayer(h);
-		connectionManager.sendDataToAll("waiting#" + h.getId());
-		System.out.println("WAITING....(Connection)");
+	public <T extends BasePlayer> void addPlayer(BufferedReader in, PrintWriter out, T player, IGameManager<T> manager) {
+	    connectionManager.addConnection(in, out); // Thêm kết nối
+	    manager.getPlayerManager().addPlayer(player); // Thêm người chơi vào quản lý
+	    connectionManager.sendDataToAll("waiting#" + player.getId()); // Gửi thông điệp đến tất cả
+	    System.out.println("WAITING....(Connection)");
 	}
 
-	public void addStreams(BufferedReader in, PrintWriter out, Player player) {
+	public void addStreams(BufferedReader in, PrintWriter out, DurakPlayer player) {
 		if (gameManager.getPlayerManager().getPlayers().size() < numberPlayer) {
-			this.addPlayer(in, out, player);
+			this.addPlayer(in, out, player, gameManager);
 			
 			if (gameManager.getPlayerManager().getPlayers().size() == numberPlayer) {
 				for(int i = 0; i <  gameManager.getPlayerManager().getPlayers().size(); i++) {
@@ -88,7 +97,7 @@ public class ServerConnection implements Runnable {
 	
 	public void addStreams(BufferedReader in, PrintWriter out, BaccaratPlayer player) {
 		if (baccaratManager.getPlayerManager().getPlayers().size() < numberPlayer) {
-			this.addPlayer(in, out, player);
+			this.addPlayer(in, out, player, baccaratManager);
 			
 			if (baccaratManager.getPlayerManager().getPlayers().size() == numberPlayer) {
 				for(int i = 0; i <  baccaratManager.getPlayerManager().getPlayers().size(); i++) {

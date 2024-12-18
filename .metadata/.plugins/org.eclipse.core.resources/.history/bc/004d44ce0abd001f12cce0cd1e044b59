@@ -1,0 +1,9 @@
+package server;
+
+public class SocketConnection {
+	
+	
+	public void CreateSession() {
+		
+	}
+}

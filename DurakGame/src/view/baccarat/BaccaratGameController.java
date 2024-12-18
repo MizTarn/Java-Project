@@ -1,23 +1,18 @@
 package view.baccarat;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-import application.GameApplication;
 import card.Card;
 import card.HandForBaccarat;
 import cardprocessor.CardComparator;
+import client.GameApplication;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
 
 public class BaccaratGameController extends BaccaratBaseController {
 	@FXML

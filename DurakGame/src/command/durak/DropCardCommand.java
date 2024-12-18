@@ -5,14 +5,14 @@ import card.HandForDurak;
 import command.Command;
 import manager.PlayerManager;
 import manager.durak.DurakTable;
-import player.Player;
+import player.DurakPlayer;
 
 public class DropCardCommand implements Command {
 
-	private PlayerManager<Player> playerManager;
+	private PlayerManager<DurakPlayer> playerManager;
 	private DurakTable tableManager;
 
-	public DropCardCommand(PlayerManager<Player>  playerManager, DurakTable tableManager) { 
+	public DropCardCommand(PlayerManager<DurakPlayer>  playerManager, DurakTable tableManager) { 
 		this.playerManager = playerManager;
 		this.tableManager = tableManager;
 	}
@@ -22,7 +22,7 @@ public class DropCardCommand implements Command {
 		Card dropped = new Card(params[1]);
 		int idPlayer = Integer.parseInt(params[2]);
 		System.out.println("current: " + idPlayer);
-		Player player = playerManager.getPlayers().get(idPlayer);
+		DurakPlayer player = playerManager.getPlayers().get(idPlayer);
 		System.out.println("la bai: " + dropped.toString());
 		try {
 			System.out.println("vao phan try cua drop_car connection"); 
@@ -47,7 +47,7 @@ public class DropCardCommand implements Command {
 					System.out.println("la duoc them vao defendingcards la : " + dropped);
 					tableManager.addDefendingCards(dropped);
 				}
-				Player p = playerManager.getPlayers().get(idPlayer);
+				DurakPlayer p = playerManager.getPlayers().get(idPlayer);
 				HandForDurak h = p.getHand();
 				System.out.println("truoc khi bo nguoi choi co nhung la: - " + h.toString());
 				tableManager.getTable().add(h.getCard(dropped));

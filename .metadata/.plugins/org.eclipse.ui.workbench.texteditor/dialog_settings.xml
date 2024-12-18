@@ -3,6 +3,7 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="true"/>
 	<list key="searchhistory">
+		<item value="setEndController"/>
 		<item value="setGame2Controller"/>
 		<item value="setGameBaseController"/>
 		<item value="getGameBaseController"/>
@@ -17,7 +18,6 @@
 		<item value="gb"/>
 		<item value="gc"/>
 		<item value="Game2Controller"/>
-		<item value="Hand2"/>
 	</list>
 	<list key="replacehistory">
 		<item value="setGame2Controller"/>

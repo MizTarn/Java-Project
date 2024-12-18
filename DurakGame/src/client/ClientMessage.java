@@ -5,9 +5,10 @@ import java.util.Objects;
 
 import card.Card;
 import javafx.application.Platform;
+import view.ErrorController;
 import view.baccarat.BaccaratBaseController;
-import view.baccarat.BaccaratGameController;
 import view.durak.DurakBaseController;
+import view.durak.DurakGameController;
 
 public class ClientMessage {
 	private GameUpdateListener client;
@@ -25,7 +26,7 @@ public class ClientMessage {
 		case "waiting", "join_session_success" -> setWait(params);
 		case "started" -> client.setGame2Controller(client.getUIManager().openGameGUI());
 		case "started_base" -> client.setGameBaseController(client.getUIManager().openGameBase());
-		case "join_session_failed" -> Platform.runLater(() -> client.getMenuController().showJoinFailedDialog());
+		case "join_session_failed" -> Platform.runLater(() -> ErrorController.showJoinFailedDialog());
 		case "start_game" -> handleStartGame(params, client.getGame2Controller());
 		case "start_game_base" -> handleStartGame(params, client.getGameBaseController());
 		case "read_game" -> handleReadGame(client.getGame2Controller(), params);
@@ -58,6 +59,7 @@ public class ClientMessage {
 		client.setTurn(Boolean.parseBoolean(turn));
 		controller.setDisableActions(client.isTurn());
 		client.setIdPlayer(params[5]);
+		client.setPlayer((DurakGameController) (controller));
 	}
 
 	public void handleReadGame(DurakBaseController controller, String[] params) {
@@ -80,14 +82,16 @@ public class ClientMessage {
 		String[] end = params[4].split(",");
 		System.out.println("username cua client la " + client.getUsername());
 		if (Boolean.parseBoolean(end[0])) {
-			client.setEndController(client.getUIManager().openEnd());
+//			client.setEndController(client.getUIManager().openEnd());
 			String name = end[1];
 			if (Objects.equals(name, client.getUsername()) || Objects.equals(name, "you")) {
-				String ending = "You Won";
-				client.getEndController().setTextState(ending);
+//				String ending = "You Won";
+//				client.getEndController().setTextState(ending);
+				client.setEndController(client.getUIManager().openWin());
 			} else {
-				String ending = "You Lost";
-				client.getEndController().setTextState(ending);
+//				String ending = "You Lost";
+//				client.getEndController().setTextState(ending);
+				client.setEndController(client.getUIManager().openLose());
 			}
 		}
 		if (!Objects.equals(params[5], "null")) {
@@ -108,21 +112,18 @@ public class ClientMessage {
 	}
 	
 	public void handleStartBaccaratGame(BaccaratBaseController controller, String[] params) { //start_game_baccarat#H-Two,C-Eight,D-Seven#false#1#score
-		System.out.println("handle start game baccrat");
-		
-		System.out.println("params la : " + params);
-		for(String s : params) {
-			System.out.println(s);
-		}
-		System.out.println("----------------------");
+//		System.out.println("handle start game baccrat");
+//		
+//		System.out.println("params la : " + params);
+//		for(String s : params) {
+//			System.out.println(s);
+//		}
+//		System.out.println("----------------------");
 		String[] cards_hand = params[1].split(",");
-		for(String s : cards_hand) {
-			System.out.println(s);
-		}
+//		for(String s : cards_hand) {
+//			System.out.println(s);
+//		}
 		client.setHandFromData(cards_hand, controller);
-////		String strTrumpCard = params[2];
-////		Card trumpCard = new Card(strTrumpCard);
-//		client.getGame2Controller().setTrumpCardImage(trumpCard);
 		String turn = params[2];
 		client.setTurn(Boolean.parseBoolean(turn));
 		controller.setDisableActions(client.isTurn());
@@ -134,7 +135,6 @@ public class ClientMessage {
 	public void handleReadBaccaratGame(BaccaratBaseController controller, String[] params) {
 		// Xử lý logic "read_game"
 		// read_game_baccarat#card1, card2, card3#endGame,nickname#hand#permission#i
-		// ...
 		System.out.println("handle read game baccrat");
 		if (!Objects.equals(params[1], "null")) {
 			String[] cards_table = params[1].split(",");
@@ -145,15 +145,10 @@ public class ClientMessage {
 		String[] end = params[2].split(",");
 		System.out.println("username cua client la " + client.getUsername());
 		if (Boolean.parseBoolean(end[0])) {
-//			client.setEndController(client.getUIManager().openEnd());
 			String name = end[1];
 			if (Objects.equals(name, client.getUsername()) || Objects.equals(name, "you")) {
-//				String ending = "You Won";
-//				client.getEndController().setTextState(ending);
 				client.setEndController(client.getUIManager().openWin());
 			} else {
-//				String ending = "You Lost";
-//				client.getEndController().setTextState(ending);
 				client.setEndController(client.getUIManager().openLose());
 			}
 		}

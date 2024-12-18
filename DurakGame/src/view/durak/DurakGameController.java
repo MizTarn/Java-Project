@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -14,12 +13,10 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
-import javax.swing.text.View;
-
-import application.GameApplication;
 import card.Card;
 import card.HandForDurak;
 import cardprocessor.CardComparator;
+import client.GameApplication;
 
 public class DurakGameController extends DurakBaseController{
 

@@ -2,10 +2,10 @@ package view.baccarat;
 
 import java.util.ArrayList;
 
-import application.GameApplication;
 import card.Card;
 import card.HandForBaccarat;
 import cardprocessor.CardComparator;
+import client.GameApplication;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
