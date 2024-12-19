@@ -5,9 +5,10 @@ import java.util.Stack;
 
 import card.Card;
 import card.Deck;
+import manager.Table;
 import player.DurakPlayer;
 
-public class DurakTable {
+public class DurakTable implements Table {
 	private ArrayList<Card> table;
 	private Card trumpCard;
 	private Stack<Card> defendingCards;
@@ -72,21 +73,8 @@ public class DurakTable {
 		this.defendingCards = defendingCards;
 	}
 
-//	public Stack<Card> getAttackingCards() {
-//		return attackingCards;
-//	}
-//
-//	public void setAttackingCards(Stack<Card> attackingCards) {
-//		this.attackingCards = attackingCards;
-//	}
-//
-//	public void addAttackingCard(Card card) {
-//		attackingCards.add(card);
-//	}
-
 	public void addDefendingCards(Card card) {
 		defendingCards.add(card);
-		System.out.println("da them vao addDefendingcard");
 	}
 
 	public Deck getDeck() {
@@ -119,7 +107,7 @@ public class DurakTable {
 			while (player.getHand().getCardsInHand().size() < 8 && !deck.isEmpty()) {
 				player.getHand().getCardsInHand().add(deck.drawCard());
 			}
-			if (deck.isEmpty() && player.getHand().getCardsInHand().size() < 6 && !isUsedTrumpCard()) {
+			if (deck.isEmpty() && player.getHand().getCardsInHand().size() < 8 && !isUsedTrumpCard()) {
 				player.getHand().getCardsInHand().add(trumpCard);
 				setUsedTrumpCard(true);
 			}

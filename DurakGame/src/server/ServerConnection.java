@@ -31,7 +31,6 @@ public class ServerConnection implements Runnable {
 	// dependency injection
 	public ServerConnection(ConnectionManager connectionManager, DurakManager gameManager,
 			DurakParseData parseAndSendData, int numberPlayer) {
-		System.out.println("chay tan");
 		this.connectionManager = connectionManager;
 		this.gameManager = gameManager;
 		this.parseAndSendData = parseAndSendData;
@@ -42,7 +41,6 @@ public class ServerConnection implements Runnable {
 	
 	public ServerConnection(ConnectionManager connectionManager, BaccaratManager baccaratManager,
 			BaccaratParseData baccaratParseData, int numberPlayer) {
-		System.out.println("chay baccarat");
 		this.connectionManager = connectionManager;
 		this.baccaratManager = baccaratManager;
 		this.baccaratParseData = baccaratParseData;
@@ -50,21 +48,6 @@ public class ServerConnection implements Runnable {
 		this.parseAndSendData = null;
 		this.gameManager = null;
 	}
-
-
-//	public void addPlayer(BufferedReader in, PrintWriter out, Player h) {
-//		connectionManager.addConnection(in, out);
-//		gameManager.getPlayerManager().addPlayer(h);
-//		connectionManager.sendDataToAll("waiting#" + h.getId());
-//		System.out.println("WAITING....(Connection)");
-//	}
-//	
-//	public void addPlayer(BufferedReader in, PrintWriter out, BaccaratPlayer h) {
-//		connectionManager.addConnection(in, out);
-//		baccaratManager.getPlayerManager().addPlayer(h);
-//		connectionManager.sendDataToAll("waiting#" + h.getId());
-//		System.out.println("WAITING....(Connection)");
-//	}
 	
 	public <T extends BasePlayer> void addPlayer(BufferedReader in, PrintWriter out, T player, IGameManager<T> manager) {
 	    connectionManager.addConnection(in, out); // Thêm kết nối
@@ -134,9 +117,7 @@ public class ServerConnection implements Runnable {
 						}
 	 
 						int currentPlayer = gameManager.getTurnManager().getCurrentActivePlayer();
-						System.out.println("day la game tan");
 						System.out.println("Đang chờ dữ liệu từ người chơi: " + currentPlayer);
-							
 						String data = connectionManager.readData(currentPlayer);
 						if (data != null && !data.isEmpty()) {
 							System.out.println("Dữ liệu nhận được: " + data);
@@ -154,7 +135,8 @@ public class ServerConnection implements Runnable {
 						if (gameManager.checkWin()) {
 							System.out.println("Trò chơi kết thúc!");
 							connectionManager.sendDataToAll("end_game#");
-							break;
+							initializeGame = false;
+//							break;
 						}
 					}
 					Thread.sleep(1000);
@@ -170,7 +152,6 @@ public class ServerConnection implements Runnable {
 						}
 	 
 						int currentPlayer = baccaratManager.getTurnManager().getCurrentActivePlayer();
-						System.out.println("day la game baccarat");
 						System.out.println("Đang chờ dữ liệu từ người chơi: " + currentPlayer);
 							
 						String data = connectionManager.readData(currentPlayer);
@@ -190,7 +171,8 @@ public class ServerConnection implements Runnable {
 						if (baccaratManager.checkWin()) {
 							System.out.println("Trò chơi kết thúc!");
 							connectionManager.sendDataToAll("end_game#");
-							break;
+//							break;
+							initializeGame = false;
 						}
 					}
 					Thread.sleep(1000);

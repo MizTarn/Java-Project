@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import command.durak.DurakParseData;
 import manager.durak.DurakManager;
+import player.BotStrategy;
 import player.DurakPlayer;
 import server.ConnectionManager;
 

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<StackPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #2E4B37;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DurakController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
+         <children>
+            <StackPane prefHeight="600.0" prefWidth="900.0">
+               <children>
+                  <VBox prefHeight="600.0" prefWidth="900.0">
+                     <children>
+                        <StackPane prefHeight="63.0" prefWidth="600.0">
+                           <children>
+                              <Label prefHeight="88.0" prefWidth="259.0" text="DURAK" textFill="#eedfdff5">
+                                 <font>
+                                    <Font name="Algerian" size="78.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
+                        <HBox prefHeight="536.0" prefWidth="900.0">
+                           <children>
+                              <VBox prefHeight="536.0" prefWidth="616.0">
+                                 <children>
+                                    <StackPane prefHeight="536.0" prefWidth="372.0">
+                                       <children>
+                                          <ImageView fitHeight="393.0" fitWidth="382.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../durak.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="536.0" prefWidth="348.0">
+                                 <children>
+                                    <StackPane prefHeight="166.0" prefWidth="316.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#loadChooseModeScene" text="PLAY">
+                                             <font>
+                                                <Font name="Algerian" size="48.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="182.0" prefWidth="316.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#loadCredit" text="CREDIT">
+                                             <font>
+                                                <Font name="Algerian" size="48.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane prefHeight="150.0" prefWidth="200.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#goBack" text="back">
+                                             <font>
+                                                <Font name="Algerian" size="48.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

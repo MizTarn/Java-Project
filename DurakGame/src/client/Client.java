@@ -1,23 +1,20 @@
 package client;
 
 import javafx.application.Platform;
-import view.ErrorController;
-import view.baccarat.BaccaratBaseController;
-import view.durak.DurakBaseController;
-import view.durak.DurakGameController;
-import view.durak.DurakMenuController;
 
 import java.io.*;
 import java.util.ArrayList;
 import card.Card;
 import card.HandForBaccarat;
 import card.HandForDurak;
+import controller.ErrorController;
+import controller.baccarat.BaccaratBaseController;
+import controller.durak.DurakBaseController;
 
 public class Client extends GameUpdateListener {
 	private NetworkManager networkManager;
 	private ClientMessage messageHandler;
 	private String username;
-	private DurakMenuController mc;
 	private String idPlayer;
 	private int numberPlayer;
 
@@ -113,7 +110,6 @@ public class Client extends GameUpdateListener {
 			String data = "create_session" + "#" + name + "#" + s_id + "#" + gui;
 //			this.setPlayer(getGame2Controller());
 			networkManager.sendData(data);
-			System.out.println("data trong createSession la: " + data);
 			System.out.println(s_id);
 		}
 	}
@@ -125,7 +121,6 @@ public class Client extends GameUpdateListener {
 			this.username = username;
 			String data = "join_session#" + this.username + "#" + session_id + "#" + gui;
 			networkManager.sendData(data);
-			System.out.println(data);
 		}
 	}
 
@@ -136,8 +131,6 @@ public class Client extends GameUpdateListener {
 			this.username = name;
 			String data = "create_session_baccarat" + "#" + name + "#" + s_id + "#" + gui;
 			networkManager.sendData(data);
-			System.out.println("data trong createSession la: " + data);
-			System.out.println(s_id);
 		}
 	}
 
@@ -148,7 +141,6 @@ public class Client extends GameUpdateListener {
 			this.username = username;
 			String data = "join_session_baccarat#" + this.username + "#" + session_id + "#" + gui;
 			networkManager.sendData(data);
-			System.out.println(data);
 		}
 
 	}
@@ -156,11 +148,10 @@ public class Client extends GameUpdateListener {
 	public void numberPlayer(String number) {
 		networkManager.sendData(number + "#");
 		setNumberPlayer(Integer.parseInt(number));
-		System.out.println("gui so luong nguoi choi la " + number);
 
 	}
 
-	public void setPlayer(DurakGameController controller) {
+	public void setPlayer(DurakBaseController controller) {
 		if (this.numberPlayer == 2) {
 			controller.setDisablePlayer3Image();
 			controller.setDisablePlayer4Image();

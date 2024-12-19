@@ -1,0 +1,21 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.btn:hover {
+    -fx-background-color: #4e8f5a; 
+    -fx-text-fill: #ffeb3b;        
+    -fx-scale-x: 1.1;             
+    -fx-scale-y: 1.1;             
+    -fx-cursor: hand;             
+}
+
+.btn1:hover {
+    -fx-scale-x: 1.1;            
+    -fx-scale-y: 1.1;             
+    -fx-cursor: hand;             
+}
+
+.btn2:hover {
+    -fx-scale-x: 1.15;            
+    -fx-scale-y: 1.15;             
+    -fx-cursor: hand;             
+}
+

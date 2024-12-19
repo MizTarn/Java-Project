@@ -1,15 +1,10 @@
 package player;
 
-import java.io.Serializable;
-
 import card.HandForDurak;
 
-public class DurakPlayer extends BasePlayer implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	boolean attacker;
+public class DurakPlayer extends BasePlayer {
+	
+	private boolean attacker;
 	private boolean isDefender;
 	private HandForDurak hand;
 	

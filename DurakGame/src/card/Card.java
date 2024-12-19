@@ -1,13 +1,11 @@
 package card;
 
-import java.io.Serializable;
-
 import cardprocessor.CardParser;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 
-public class Card implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Card {
+	
 
 	public enum Suit { 
 		C, D, H, S;
@@ -74,7 +72,7 @@ public class Card implements Serializable {
 	}
 	
 	public String getImageString(Card cd) { 
-		String filename = "/cards/";
+		String filename = "/resource/cards/";
 		if (cd.getValue().getRank() >= 2 && cd.getValue().getRank() <= 10) {
 			filename += cd.getValue().getRank();
 		} else {

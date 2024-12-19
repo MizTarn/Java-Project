@@ -1,15 +1,11 @@
 package card;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class HandForDurak extends BaseHand implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class HandForDurak extends BaseHand {
+
 
  
 	public HandForDurak(ArrayList<Card> cardsInHand) {

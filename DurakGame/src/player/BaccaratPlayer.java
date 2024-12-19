@@ -1,15 +1,9 @@
 package player;
 
-import java.io.Serializable;
-
 import card.HandForBaccarat;
 
-public class BaccaratPlayer extends BasePlayer implements Serializable{
+public class BaccaratPlayer extends BasePlayer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	private HandForBaccarat hand;
 	private boolean isPlay;

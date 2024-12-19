@@ -1,6 +1,7 @@
 package server.bot;
 
 import manager.durak.DurakManager;
+import player.BotStrategy;
 
 public class BotTurnProcessor {
 	private BotStrategy botStrategy;

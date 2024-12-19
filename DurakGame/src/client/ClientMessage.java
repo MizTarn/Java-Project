@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import card.Card;
+import controller.ErrorController;
+import controller.baccarat.BaccaratBaseController;
+import controller.durak.DurakBaseController;
 import javafx.application.Platform;
-import view.ErrorController;
-import view.baccarat.BaccaratBaseController;
-import view.durak.DurakBaseController;
-import view.durak.DurakGameController;
 
 public class ClientMessage {
 	private GameUpdateListener client;
@@ -19,18 +18,18 @@ public class ClientMessage {
 	}
 
 	public void parseData(String data) {
-		System.out.println("data trong mess la: " + data);
+		System.out.println("data: " + data);
 		String[] params = data.split("#");
 		String command = params[0];
 		switch (command) {
 		case "waiting", "join_session_success" -> setWait(params);
-		case "started" -> client.setGame2Controller(client.getUIManager().openGameGUI());
-		case "started_base" -> client.setGameBaseController(client.getUIManager().openGameBase());
+		case "started" -> client.setDurakGameController(client.getUIManager().openGameGUI());
+		case "started_base" -> client.setDurakGameBaseController(client.getUIManager().openGameBase());
 		case "join_session_failed" -> Platform.runLater(() -> ErrorController.showJoinFailedDialog());
-		case "start_game" -> handleStartGame(params, client.getGame2Controller());
-		case "start_game_base" -> handleStartGame(params, client.getGameBaseController());
-		case "read_game" -> handleReadGame(client.getGame2Controller(), params);
-		case "read_game_base" -> handleReadGame(client.getGameBaseController(), params);
+		case "start_game" -> handleStartGame(params, client.getDurakGameController());
+		case "start_game_base" -> handleStartGame(params, client.getDurakGameBaseController());
+		case "read_game" -> handleReadGame(client.getDurakGameController(), params);
+		case "read_game_base" -> handleReadGame(client.getDurakGameBaseController(), params);
 		case "started_baccarat" -> client.setBaccaratGameController(client.getUIManager().openBaccaratGame());
 		case "start_game_baccarat_gui" -> handleStartBaccaratGame( client.getBaccaratGameController(), params);
 		case "read_game_baccarat_gui" -> handleReadBaccaratGame( client.getBaccaratGameController(),params);
@@ -59,14 +58,13 @@ public class ClientMessage {
 		client.setTurn(Boolean.parseBoolean(turn));
 		controller.setDisableActions(client.isTurn());
 		client.setIdPlayer(params[5]);
-		client.setPlayer((DurakGameController) (controller));
+		client.setPlayer(controller);
 	}
 
 	public void handleReadGame(DurakBaseController controller, String[] params) {
 		// Xử lý logic "read_game"
 		// read_game#card1, card2, card3
 		// ...#usedTrump#sizeDeck#endGame,nickname#hand#textAction#permission
-
 		if (!Objects.equals(params[1], "null")) {
 			String[] cards_table = params[1].split(",");
 			client.setTableFromData(cards_table, controller);
@@ -82,15 +80,10 @@ public class ClientMessage {
 		String[] end = params[4].split(",");
 		System.out.println("username cua client la " + client.getUsername());
 		if (Boolean.parseBoolean(end[0])) {
-//			client.setEndController(client.getUIManager().openEnd());
 			String name = end[1];
 			if (Objects.equals(name, client.getUsername()) || Objects.equals(name, "you")) {
-//				String ending = "You Won";
-//				client.getEndController().setTextState(ending);
 				client.setEndController(client.getUIManager().openWin());
 			} else {
-//				String ending = "You Lost";
-//				client.getEndController().setTextState(ending);
 				client.setEndController(client.getUIManager().openLose());
 			}
 		}
@@ -112,17 +105,7 @@ public class ClientMessage {
 	}
 	
 	public void handleStartBaccaratGame(BaccaratBaseController controller, String[] params) { //start_game_baccarat#H-Two,C-Eight,D-Seven#false#1#score
-//		System.out.println("handle start game baccrat");
-//		
-//		System.out.println("params la : " + params);
-//		for(String s : params) {
-//			System.out.println(s);
-//		}
-//		System.out.println("----------------------");
 		String[] cards_hand = params[1].split(",");
-//		for(String s : cards_hand) {
-//			System.out.println(s);
-//		}
 		client.setHandFromData(cards_hand, controller);
 		String turn = params[2];
 		client.setTurn(Boolean.parseBoolean(turn));

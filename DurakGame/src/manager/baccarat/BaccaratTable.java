@@ -3,8 +3,9 @@ package manager.baccarat;
 import java.util.ArrayList;
 import card.Card;
 import card.Deck;
+import manager.Table;
 
-public class BaccaratTable {
+public class BaccaratTable implements Table {
 	private ArrayList<Card> table;
 	private boolean changeMove;
 	private Deck deck;

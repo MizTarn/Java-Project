@@ -5,26 +5,6 @@ import card.Card;
 public class CardParser {
 
 
-//	public static void sendError(String message) {
-//		Platform.runLater(() -> {
-//			Alert alert = new Alert(Alert.AlertType.ERROR);
-//			alert.setTitle("Error");
-//			alert.setHeaderText("It erros");
-//			alert.setContentText(message);
-//			alert.showAndWait();
-//			Platform.exit();
-//		});
-//	}
-//
-//	public static void sendConf(String message) {
-//		Platform.runLater(() -> {
-//			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//			alert.setContentText("Player " + message + " has won the game.");
-//			alert.showAndWait();
-//			Platform.exit();
-//		});
-//	}
-
 	public static Card.Suit getSuit(String str) {
 		if (str.equalsIgnoreCase("D")) {
 			return Card.Suit.D;

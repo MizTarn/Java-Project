@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.durak.DurakMenuController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.durak.DurakMenuController">
    <children>
       <Region prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #2e4b37;" />
       <Button fx:id="btnCreate" layoutX="44.0" layoutY="203.0" mnemonicParsing="false" onAction="#createRoom" style="-fx-background-color: black; -fx-background-radius: 10px;" styleClass="btn1" text="CREATE" textFill="#c1c1c1">

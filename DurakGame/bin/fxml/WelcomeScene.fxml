@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #2E4B37;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.WelcomeSceneController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #2E4B37;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WelcomeSceneController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -32,7 +32,7 @@
                                  <children>
                                     <StackPane prefHeight="345.0" prefWidth="450.0">
                                        <children>
-                                          <ImageView fx:id="threeCardsGame" fitHeight="286.0" fitWidth="374.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="baccaratGame" fitHeight="286.0" fitWidth="374.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../resource/3-card.png" />
                                              </image>
@@ -41,7 +41,7 @@
                                     </StackPane>
                                     <StackPane prefHeight="74.0" prefWidth="450.0">
                                        <children>
-                                          <Text fx:id="threeCardsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0">
+                                          <Text fx:id="baccaratText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0">
                                              <font>
                                                 <Font name="Algerian" size="55.0" />
                                              </font>
