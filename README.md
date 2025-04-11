@@ -2,7 +2,7 @@
 
 ## Giới thiệu
 
-Đây là một dự án trong môn **Lập trình Hướng đối tượng (OOP)** tại trường Đại học Bách Khoa Hà Nội (BKHN). Dự án yêu cầu xây dựng một **game bài** với khả năng hỗ trợ nhiều người chơi, giúp người dùng trải nghiệm một trò chơi đơn giản nhưng đầy thử thách.
+Đây là một project trong môn **Lập trình Hướng đối tượng ** tại Đại học Bách Khoa Hà Nội (BKHN).
 
 Project này được viết bằng ngôn ngữ **Java** và áp dụng các nguyên lý của lập trình hướng đối tượng để xây dựng các thành phần của game.
 
